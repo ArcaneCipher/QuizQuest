@@ -40,6 +40,16 @@ Defining the scope, which includes user stories and MVP
 2. Share quizzes using unique URLs.
 3. Attempt quizzes and view results.
 
+### LHL Assigned Tasks (Recommended new MVP List)
+1. Users can create quizzes.
+2. Users can make their quiz unlisted (make them private and not available on the home page, but if someone knows the quiz URL they can visit and take the quiz)
+3. Users can share a link to a single quiz
+4. Users can see a list of public quizzes
+5. Users can see a list of public quizzes on the home page
+6. Users can attempt a quiz
+7. Users can see the results of their recent attempt
+8. Users can share a link to the result of their attempt
+
 ### Stretch Features
 
 1. User authentication for managing quizzes and attempts.
