@@ -17,7 +17,7 @@ The repo: <https://github.com/ArcaneCipher/QuizQuest>
 - [About the Midterm Project](#about-the-midterm-project)
 - [Project Outcomes](#project-outcomes)
 - [Project Structure](#project-structure)
-- [Stack Requirements](#stack-requirements)
+- [Project Stack Requirements](#project-stack-requirements)
 - [Tech Stack](#tech-stack)
 - [Scope Definition](#scope-definition)
   - [LHL Project Requirements](#lhl-project-requirements)
@@ -29,6 +29,13 @@ The repo: <https://github.com/ArcaneCipher/QuizQuest>
   - [Entity-Relationship Diagram (ERD)](#entity-relationship-diagram-erd)
 - [Wireframes](#wireframes)
 - [Workflow (Git)](#workflow-git)
+  - [Initial Setup](#initial-setup)
+  - [Starting Your Day’s Work](#starting-your-days-work)
+  - [Working on Your Feature Branch](#working-on-your-feature-branch)
+  - [Collaborating with the Team](#collaborating-with-the-team)
+  - [Merging and Resolving Conflicts](#merging-and-resolving-conflicts)
+  - [End-of-Day Practices](#end-of-day-practices)
+  - [Tips for Success](#tips-for-success)
 - [Work separation and organization](#work-separation-and-organization)
 
 ## About the Learning
@@ -82,21 +89,23 @@ In completing this project, learners will be able to:
 
 [Top](#table-of-contents)
 
-## Stack Requirements
+## Project Stack Requirements
 
-Groups must use the Stack requirements listed below. Your projects must use:
+Groups must use the Stack requirements listed below.
+
+### Project must use
 
 - ES6 for server-side (NodeJS) code
 - NodeJS
 - Express
-    - RESTful routes
+  - RESTful routes
 - One or more CSS or UI "framework"s:
-    - jQuery
-    - A CSS preprocessor such as SASS, Stylus, or PostCSS for styling -- or CSS Custom properties and no CSS preprocessor
+  - jQuery
+  - A CSS preprocessor such as SASS, Stylus, or PostCSS for styling -- or CSS Custom properties and no CSS preprocessor
 - PostgreSQL and pg (with promises) for DBMS
 - git for version control
 
-Optional Requirements
+### Optional Requirements
 
 - SPA (Single-Page Application) Behaviour
 - Hosting, such as Railway.app, netlify, github pages, AWS, or Azure
@@ -106,20 +115,23 @@ Optional Requirements
 ## Tech stack
 
 1. Front-End:
-    - HTML/CSS: Basic structure and styling.
-    - JavaScript & jQuery: Dynamic interactivity.
-    - AJAX: Asynchronous data fetching without page reloads.
+
+   - HTML/CSS: Basic structure and styling.
+   - JavaScript & jQuery: Dynamic interactivity.
+   - AJAX: Asynchronous data fetching without page reloads.
 
 2. Back-End:
-    - Node.js: Server-side JavaScript.
-    - Express.js: Framework for handling routes and server logic.
+
+   - Node.js: Server-side JavaScript.
+   - Express.js: Framework for handling routes and server logic.
 
 3. Database:
-    - PostgreSQL: To store user data, quizzes, and results.
+
+   - PostgreSQL: To store user data, quizzes, and results.
 
 4. Other Tools:
-    - EJS: Templating engine for rendering dynamic pages.
-    - Bootstrap: For quick, responsive styling.
+   - EJS: Templating engine for rendering dynamic pages.
+   - Bootstrap: For quick, responsive styling.
 
 [Top](#table-of-contents)
 
@@ -166,40 +178,40 @@ Defining the scope, which includes user stories and MVP
 
 ### Entities
 
-Users:
+**users:**
 
-- id (PK)
-- name
-- email
-- password (hashed)
+> - id (PK)
+> - name
+> - email
+> - password (hashed)
 
-Quizzes:
+**quizzes:**
 
-- id (PK)
-- title
-- description
-- is_public (boolean)
-- creator_id (FK, references Users.id)
+> - id (PK)
+> - title
+> - description
+> - is_public (boolean)
+> - creator_id (FK, references users.id)
 
-Questions:
+**questions:**
 
-- id (PK)
-- quiz_id (FK, references Quizzes.id)
-- text
+> - id (PK)
+> - quiz_id (FK, references quizzes.id)
+> - question
 
-Answers:
+**answers:**
 
-- id (PK)
-- question_id (FK, references Questions.id)
-- text
-- is_correct (boolean)
+> - id (PK)
+> - question_id (FK, references questions.id)
+> - answer
+> - is_correct (boolean)
 
-Attempts:
+**attempts:**
 
-- id (PK)
-- user_id (FK, references Users.id)
-- quiz_id (FK, references Quizzes.id)
-- score
+> - id (PK)
+> - user_id (FK, references users.id)
+> - quiz_id (FK, references quizzes.id)
+> - score
 
 ### Entity-Relationship Diagram (ERD)
 
@@ -219,7 +231,7 @@ This will need to be mocked up
 Home Page:
 
 - List of public quizzes.
-Search bar to find quizzes.
+  Search bar to find quizzes.
 
 Create Quiz Page:
 
@@ -239,18 +251,188 @@ Result Page:
 
 ## Workflow (Git)
 
-(To be included in next revision)
+### **Team Collaboration Workflow for GitHub and VSCode**
 
-> Setting up the GitHub repository. Workflow is probably someone setting up the repo "QuizApp" (unless we wanna call it something else). Branching likely a "main" for stable/production ready code, "dev" branch for staging and integrating features. Then specific feature branches like "feature/create-quiz" or "feature/view-result" when we're working on those features.
+This workflow ensures that everyone stays in sync and reduces the risk of conflicts, enabling your team to collaborate smoothly.
+
+#### **Initial Setup**
+
+1. **Clone the Repository:**
+
+   - If you haven’t already, clone the repository to your local machine.
+
+     ```bash
+     git clone git@github.com:ArcaneCipher/QuizQuest.git
+     cd QuizQuest
+     ```
+
+   - Open the project folder in VSCode.
+
+2. **Set Up the Upstream Remote:**
+
+   - Ensure your local repo is linked to the main repository (upstream).
+
+     ```bash
+     git remote add upstream git@github.com:ArcaneCipher/QuizQuest.git
+     ```
+
+   - Check remotes:
+
+     ```bash
+     git remote -v
+     ```
+
+3. **Install Optional Extensions:**
+
+   - Install the **GitLens** and **GitHub Pull Requests and Issues** extensions in VSCode for better Git integration and visualization.
+
+[Workflow Top](#table-of-contents)
+
+---
+
+#### **Starting Your Day’s Work**
+
+1. **Pull the Latest Changes:**
+
+   - Before starting work, ensure your local main branch is up-to-date.
+
+     ```bash
+     git checkout main
+     git pull upstream main
+     ```
+
+   - This syncs your local `main` branch with the main repository on GitHub.
+
+2. **Create a Feature Branch:**
+
+   - Always create a new branch for the task/feature you’re working on.
+
+     ```bash
+     git checkout -b <feature-branch-name>
+     ```
+
+   - Use descriptive branch names (e.g., `feature/quiz-sharing` or `fix/question-ordering`).
+
+[Workflow Top](#table-of-contents)
+
+---
+
+#### **Working on Your Feature Branch**
+
+1. **Make Commits:**
+
+   - Write meaningful commit messages for every change you make.
+
+     ```bash
+     git add <file>
+     git commit -m "Add feature to share quizzes"
+     ```
+
+   - Commit often, but ensure each commit represents a logical unit of work.
+
+2. **Push Your Branch to GitHub:**
+
+   - Push your feature branch to the repository so others can see your work.
+
+     ```bash
+     git push origin <feature-branch-name>
+     ```
+
+[Workflow Top](#table-of-contents)
+
+---
+
+#### **Collaborating with the Team**
+
+1. **Create a Pull Request (PR):**
+
+   - Once your feature is complete, create a pull request from GitHub:
+     - Go to the repository → Click "Pull Requests" → Click "New Pull Request."
+   - Assign reviewers and add a description of the changes.
+
+2. **Review and Test:**
+
+   - Review each other's PRs for code quality and functionality.
+   - Approve or suggest changes before merging.
+
+3. **Sync Frequently:**
+
+   - If others are pushing changes to the `main` branch, sync your branch regularly:
+
+     ```bash
+     git fetch upstream git merge upstream/main
+     ```
+
+   - Resolve any conflicts locally before pushing updates to your feature branch.
+
+[Workflow Top](#table-of-contents)
+
+---
+
+#### **Merging and Resolving Conflicts**
+
+1. **Merge the PR:**
+
+   - After approval, merge the pull request on GitHub.
+
+2. **Handle Merge Conflicts:**
+
+   - If conflicts arise during merging:
+     - VSCode highlights conflicts in the editor.
+     - Choose which changes to keep or manually edit the files.
+   - After resolving, mark the conflicts as resolved:
+
+     ```bash
+     git add <file>
+     git commit
+     ```
+
+   - Push the resolved branch:
+
+     ```bash
+     git push origin <feature-branch-name>
+     ```
+
+[Workflow Top](#table-of-contents)
+
+---
+
+#### **End-of-Day Practices**
+
+1. **Clean Up:**
+
+   - Delete merged branches both locally and remotely to keep things organized.
+
+     ```bash
+     git branch -d <feature-branch-name>
+     git push origin --delete <feature-branch-name>
+     ```
+
+2. **Document Changes:**
+
+   - Update any relevant documentation or comments to reflect the day’s work.
+
+[Workflow Top](#table-of-contents)
+
+---
+
+### **Tips for Success**
+
+- **Branch Naming Convention:** Use prefixes like `feature/`, `bugfix/`, or `hotfix/` for clarity.
+- **Commit Messages:** Use present-tense and descriptive messages (e.g., "Add functionality for quiz scoring").
+- **Pull Requests:** Keep PRs small and focused on a single feature or fix for easier review.
+- **Sync Often:** Regularly pull from `main` to avoid large conflicts.
+- **Communication:** Use comments in GitHub or a team communication tool (like Slack) to clarify questions or decisions.
+- **Backup Work:** If you’re working on an experimental branch, push it to GitHub as a draft for safety.
+
+[Workflow Top](#table-of-contents)
+
+---
 
 [Top](#table-of-contents)
 
 ## Work separation and organization
 
 (To be included in next revision)
-
-> "who is responsible for what, and status tracking using tools like Trello, etc."
-> 
-> For Work separation/organization I think we'll have a better idea when we sit down and map out/plan/architect the app framework. Then we can divvy out features to work on. We'll have to figure out how often we want to meet as a team for code reviews before merging to main and for peer coding sessions. Fortunately there are no other lectures to worry about at that time.
 
 [Top](#table-of-contents)
