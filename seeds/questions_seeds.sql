@@ -1,4 +1,4 @@
-INSERT INTO questions (quiz_id, text) VALUES
+INSERT INTO questions (quiz_id, question) VALUES
 -- Science Trivia
 (1, 'What is the chemical symbol for water?'),
 (1, 'What planet is known as the Red Planet?'),
