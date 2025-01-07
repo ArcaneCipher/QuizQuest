@@ -22,13 +22,13 @@ CREATE TABLE quizzes (
 CREATE TABLE questions (
   id SERIAL PRIMARY KEY NOT NULL,
   quiz_id INTEGER REFERENCES quizzes(id) ON DELETE CASCADE,
-  text TEXT NOT NULL
+  question TEXT NOT NULL
 );
 
 CREATE TABLE answers (
   id SERIAL PRIMARY KEY NOT NULL,
   question_id INTEGER REFERENCES questions(id) ON DELETE CASCADE,
-  text TEXT NOT NULL,
+  answer TEXT NOT NULL,
   is_correct BOOLEAN NOT NULL DEFAULT FALSE
 );
 
