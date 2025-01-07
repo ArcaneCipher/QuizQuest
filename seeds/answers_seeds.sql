@@ -1,5 +1,5 @@
 -- Science Trivia
-INSERT INTO answers (question_id, text, is_correct) VALUES
+INSERT INTO answers (question_id, answer, is_correct) VALUES
 -- Question 1: What is the chemical symbol for water?
 (1, 'H2O', true),
 (1, 'CO2', false),
@@ -36,7 +36,7 @@ INSERT INTO answers (question_id, text, is_correct) VALUES
 (5, 'Graphite', false);
 
 -- History Buffs
-INSERT INTO answers (question_id, text, is_correct) VALUES
+INSERT INTO answers (question_id, answer, is_correct) VALUES
 -- Question 6: Who was the first President of the United States?
 (6, 'George Washington', true),
 (6, 'Abraham Lincoln', false),
@@ -73,7 +73,7 @@ INSERT INTO answers (question_id, text, is_correct) VALUES
 (10, 'Britannic', false);
 
 -- Movie Mania
-INSERT INTO answers (question_id, text, is_correct) VALUES
+INSERT INTO answers (question_id, answer, is_correct) VALUES
 -- Question 11: Which movie won the first-ever Academy Award for Best Picture?
 (11, 'Wings', true),
 (11, 'Gone with the Wind', false),
@@ -110,7 +110,7 @@ INSERT INTO answers (question_id, text, is_correct) VALUES
 (15, 'Natalie Portman', false);
 
 -- World Capitals
-INSERT INTO answers (question_id, text, is_correct) VALUES
+INSERT INTO answers (question_id, answer, is_correct) VALUES
 -- Question 16: What is the capital of France?
 (16, 'Paris', true),
 (16, 'Rome', false),
@@ -147,7 +147,7 @@ INSERT INTO answers (question_id, text, is_correct) VALUES
 (20, 'Fortaleza', false);
 
 -- Famous Books
-INSERT INTO answers (question_id, text, is_correct) VALUES
+INSERT INTO answers (question_id, answer, is_correct) VALUES
 -- Question 21: Who wrote “Pride and Prejudice”?
 (21, 'Jane Austen', true),
 (21, 'Charlotte Brontë', false),
@@ -184,7 +184,7 @@ INSERT INTO answers (question_id, text, is_correct) VALUES
 (25, 'Animal Farm', false);
 
 -- Pop Culture Quiz
-INSERT INTO answers (question_id, text, is_correct) VALUES
+INSERT INTO answers (question_id, answer, is_correct) VALUES
 -- Question 26: What social media platform is known for the blue bird?
 (26, 'Twitter', true),
 (26, 'Facebook', false),
@@ -221,7 +221,7 @@ INSERT INTO answers (question_id, text, is_correct) VALUES
 (30, 'Love Island', false);
 
 -- Math Puzzles
-INSERT INTO answers (question_id, text, is_correct) VALUES
+INSERT INTO answers (question_id, answer, is_correct) VALUES
 -- Question 31: What is the square root of 144?
 (31, '12', true),
 (31, '14', false),
@@ -258,7 +258,7 @@ INSERT INTO answers (question_id, text, is_correct) VALUES
 (35, '100', false);
 
 -- Space Exploration
-INSERT INTO answers (question_id, text, is_correct) VALUES
+INSERT INTO answers (question_id, answer, is_correct) VALUES
 -- Question 36: Who was the first human to travel into space?
 (36, 'Yuri Gagarin', true),
 (36, 'Neil Armstrong', false),
@@ -295,7 +295,7 @@ INSERT INTO answers (question_id, text, is_correct) VALUES
 (40, 'Spitzer Space Telescope', false);
 
 -- Music Legends
-INSERT INTO answers (question_id, text, is_correct) VALUES
+INSERT INTO answers (question_id, answer, is_correct) VALUES
 -- Question 41: Who is known as the King of Pop?
 (41, 'Michael Jackson', true),
 (41, 'Elvis Presley', false),
@@ -332,7 +332,7 @@ INSERT INTO answers (question_id, text, is_correct) VALUES
 (45, 'Joseph Haydn', false);
 
 -- Sports Quiz
-(INSERT INTO answers (question_id, text, is_correct) VALUES
+(INSERT INTO answers (question_id, answer, is_correct) VALUES
 -- Question 46: What sport is known as “the beautiful game”?
 (46, 'Soccer', true),
 (46, 'Basketball', false),
@@ -369,7 +369,7 @@ INSERT INTO answers (question_id, text, is_correct) VALUES
 (50, 'Larry Bird', false);
 
 -- Geography Genius
-INSERT INTO answers (question_id, text, is_correct) VALUES
+INSERT INTO answers (question_id, answer, is_correct) VALUES
 (51, 'Africa', true),
 (51, 'Asia', false),
 (51, 'South America', false),
@@ -401,7 +401,7 @@ INSERT INTO answers (question_id, text, is_correct) VALUES
 (55, 'Danube River', false);
 
 -- Tech Titans
-INSERT INTO answers (question_id, text, is_correct) VALUES
+INSERT INTO answers (question_id, answer, is_correct) VALUES
 (56, 'Bill Gates', true),
 (56, 'Steve Jobs', false),
 (56, 'Mark Zuckerberg', false),
@@ -433,7 +433,7 @@ INSERT INTO answers (question_id, text, is_correct) VALUES
 (60, 'Ruby', false);
 
 -- Art History
-INSERT INTO answers (question_id, text, is_correct) VALUES
+INSERT INTO answers (question_id, answer, is_correct) VALUES
 (61, 'Leonardo da Vinci', true),
 (61, 'Michelangelo', false),
 (61, 'Raphael', false),
@@ -465,7 +465,7 @@ INSERT INTO answers (question_id, text, is_correct) VALUES
 (65, 'The Prado', false);
 
 -- Superhero Showdown
-INSERT INTO answers (question_id, text, is_correct) VALUES
+INSERT INTO answers (question_id, answer, is_correct) VALUES
 (66, 'Clark Kent', true),
 (66, 'Bruce Wayne', false),
 (66, 'Peter Parker', false),
@@ -497,7 +497,7 @@ INSERT INTO answers (question_id, text, is_correct) VALUES
 (70, 'Gotham City', false);
 
 -- Programming Basics
-INSERT INTO answers (question_id, text, is_correct) VALUES
+INSERT INTO answers (question_id, answer, is_correct) VALUES
 (71, 'HyperText Markup Language', true),
 (71, 'HyperText Machine Language', false),
 (71, 'Hyper Transfer Markup Language', false),
@@ -529,7 +529,7 @@ INSERT INTO answers (question_id, text, is_correct) VALUES
 (75, 'Ruby', false);
 
 -- Classic Movies
-INSERT INTO answers (question_id, text, is_correct) VALUES
+INSERT INTO answers (question_id, answer, is_correct) VALUES
 (76, 'Vivien Leigh', true),
 (76, 'Katharine Hepburn', false),
 (76, 'Ingrid Bergman', false),
@@ -561,7 +561,7 @@ INSERT INTO answers (question_id, text, is_correct) VALUES
 (80, 'Brian De Palma', false);
 
 -- Gaming Gurus
-INSERT INTO answers (question_id, text, is_correct) VALUES
+INSERT INTO answers (question_id, answer, is_correct) VALUES
 (81, 'Link', true),
 (81, 'Zelda', false),
 (81, 'Ganondorf', false),
@@ -593,7 +593,7 @@ INSERT INTO answers (question_id, text, is_correct) VALUES
 (85, 'Terraria', false);
 
 -- Animal Kingdom
-INSERT INTO answers (question_id, text, is_correct) VALUES
+INSERT INTO answers (question_id, answer, is_correct) VALUES
 (86, 'Cheetah', true),
 (86, 'Lion', false),
 (86, 'Tiger', false),
@@ -625,7 +625,7 @@ INSERT INTO answers (question_id, text, is_correct) VALUES
 (90, 'Swarm', false);
 
 -- Cryptic Riddles
-INSERT INTO answers (question_id, text, is_correct) VALUES
+INSERT INTO answers (question_id, answer, is_correct) VALUES
 (91, 'An egg', true),
 (91, 'A secret', false),
 (91, 'A nut', false),
@@ -657,7 +657,7 @@ INSERT INTO answers (question_id, text, is_correct) VALUES
 (95, 'A plane', false);
 
 -- Space Trivia
-INSERT INTO answers (question_id, text, is_correct) VALUES
+INSERT INTO answers (question_id, answer, is_correct) VALUES
 (96, 'Mercury', true),
 (96, 'Venus', false),
 (96, 'Earth', false),
