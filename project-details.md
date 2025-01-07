@@ -180,38 +180,51 @@ Defining the scope, which includes user stories and MVP
 
 **users:**
 
-> - id (PK)
-> - name
-> - email
-> - password (hashed)
+- id (PK)
+- name
+- email
+- password (hashed)
+
+!["Users table"](./screenshots/table_users.png)
 
 **quizzes:**
 
-> - id (PK)
-> - title
-> - description
-> - is_public (boolean)
-> - creator_id (FK, references users.id)
+- id (PK)
+- creator_id (FK, references users.id)
+- title
+- description
+- is_public (boolean)
+- quiz_url
+
+!["Quizzes table"](./screenshots/table_quizzes.png)
 
 **questions:**
 
-> - id (PK)
-> - quiz_id (FK, references quizzes.id)
-> - question
+- id (PK)
+- quiz_id (FK, references quizzes.id)
+- question
+
+!["Questions table"](./screenshots/table_questions.png)
 
 **answers:**
 
-> - id (PK)
-> - question_id (FK, references questions.id)
-> - answer
-> - is_correct (boolean)
+- id (PK)
+- question_id (FK, references questions.id)
+- answer
+- is_correct (boolean)
+
+!["Answers table"](./screenshots/table_answers.png)
 
 **attempts:**
 
-> - id (PK)
-> - user_id (FK, references users.id)
-> - quiz_id (FK, references quizzes.id)
-> - score
+- id (PK)
+- user_id (FK, references users.id)
+- quiz_id (FK, references quizzes.id)
+- score
+- question_total
+- attempt_url
+
+!["Attempts table"](./screenshots/table_attempts.png)
 
 ### Entity-Relationship Diagram (ERD)
 
