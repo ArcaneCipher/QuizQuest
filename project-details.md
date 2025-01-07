@@ -246,6 +246,8 @@ Home Page:
 - List of public quizzes.
   Search bar to find quizzes.
 
+  !["Homepage Wireframe"](./screenshots/homepage.png)
+
 Create Quiz Page:
 
 - Input fields for title and description.
