@@ -208,6 +208,8 @@ Attempts:
 3. Questions are connected to Answers (1-to-many).
 4. Users are connected to Attempts (1-to-many), which track quiz scores.
 
+!["Entity Relationship Diagram"](./screenshots/entity-relationship-diagram.png)
+
 [Top](#table-of-contents)
 
 ## Wireframes
