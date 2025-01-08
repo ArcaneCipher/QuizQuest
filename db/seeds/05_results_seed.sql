@@ -1,4 +1,4 @@
-INSERT INTO attempts (user_id, quiz_id, score, question_total, attempt_url) VALUES
+INSERT INTO results (user_id, quiz_id, score, question_total, attempt_url) VALUES
 (23, 20, 5, 5, 'h1DB4MOL'),
 (1, 18, 1, 5, 'ZoZTIzdK'),
 (19, 2, 5, 5, '9wAKwxO6'),
