@@ -253,6 +253,10 @@ Create Quiz Page:
 - Input fields for title and description.
 - Section to add questions and answers dynamically.
 
+  !["Create Quiz Wireframe"](./screenshots/create-quiz.png)
+
+
+
 Attempt Quiz Page:
 
 - Display questions with multiple-choice answers.
