@@ -37,6 +37,7 @@ The repo: <https://github.com/ArcaneCipher/QuizQuest>
   - [End-of-Day Practices](#end-of-day-practices)
   - [Tips for Success](#tips-for-success)
 - [Work separation and organization](#work-separation-and-organization)
+  - [Project File Tree](#project-file-tree)
 
 ## About the Learning
 
@@ -194,7 +195,7 @@ Defining the scope, which includes user stories and MVP
 - title
 - description
 - is_public (boolean)
-- quiz_url
+- quiz_url (randomly generated alphanumeric string)
 
 !["Quizzes table"](./screenshots/table_quizzes.png)
 
@@ -215,25 +216,39 @@ Defining the scope, which includes user stories and MVP
 
 !["Answers table"](./screenshots/table_answers.png)
 
-**attempts:**
+**results:**
 
 - id (PK)
 - user_id (FK, references users.id)
 - quiz_id (FK, references quizzes.id)
-- score
-- question_total
-- attempt_url
+- score (calculated by count true for answers)
+- question_total (calculated from question count by quiz_id)
+- attempt_url (randomly generated alphanumeric string)
 
-!["Attempts table"](./screenshots/table_attempts.png)
+!["Results table"](./screenshots/table_results.png)
+
+**user_answers:**
+
+- id (PK)
+- result_id (FK, references results.id)
+- question_id (FK, references questions.id)
+- selected_answer_id (FK, references answers.id)
+- is_correct (boolean from answers.is_correct)
+
+!["User Answers table"](./screenshots/table_user_answers.png)
+
 
 ### Entity-Relationship Diagram (ERD)
 
-1. Users are connected to Quizzes (1-to-many).
-2. Quizzes are connected to Questions (1-to-many).
-3. Questions are connected to Answers (1-to-many).
-4. Users are connected to Attempts (1-to-many), which track quiz scores.
+1. users are connected to quizzes (1-to-many).
+2. users are connected to results (1-to-many), which track quiz scores.
+3. quizzes are connected to questions (1-to-many).
+4. quizzes are connected to results (1-to-many).
+5. quizzes are connected to user_answers (1-to-many).
+6. questions are connected to answers (1-to-many).
+7. answers are connected to user_answers (1-to-many).
 
-!["Entity Relationship Diagram"](./screenshots/entity-relationship-diagram.png)
+    !["Entity Relationship Diagram"](./screenshots/entity-relationship-diagram.png)
 
 [Top](#table-of-contents)
 
@@ -453,5 +468,60 @@ This workflow ensures that everyone stays in sync and reduces the risk of confli
 ## Work separation and organization
 
 (To be included in next revision)
+
+### Project File Tree
+
+```sql
+.
+├── README.md
+├── bin
+│   └── resetdb.js <---- called with: `npm run db:reset`
+├── db
+│   ├── QuizQuest_ERD.drawio <---- ERD diagram
+│   ├── connection.js <----------- pg db config settings
+│   ├── queries <----------------- database queries
+│   │   └── users.js
+│   ├── schema <------------------ schema files
+│   │   └── quizquest_schema.sql
+│   └── seeds <------------------- seed data files
+│       ├── 01_users_seeds.sql
+│       ├── 02_quizzes_seeds.sql
+│       ├── 03_questions_seeds.sql
+│       ├── 04_answers_seeds.sql
+│       └── 05_attempts_seeds.sql
+├── lib <------------------------- app middleware
+│   └── sass-middleware.js
+├── node_modules
+│   └── <trimmed out the tree>
+├── package-lock.json
+├── package.json
+├── project-details.md <---------- project documentation
+├── public
+│   ├── scripts <----------------- app js scripts
+│   │   ├── app.js <-------------- client facing scripts
+│   │   └── users.js <------------ client facing scripts
+│   ├── styles <------------------ app css styles
+│   │   ├── layout.css
+│   │   └── main.css
+│   └── vendor <------------------ don't touch?
+│       ├── border-box.css
+│       ├── jquery-3.0.0.js
+│       └── normalize-4.1.1.css
+├── routes <---------------------- route & API scripts
+│   ├── users-api.js <------------ routes for User Data
+│   ├── users.js <---------------- routes for Users
+│   └── widgets-api.js <---------- routes for Widget Data
+├── screenshots <----------------- project screenshots
+│   └── <trimmed out the tree>
+├── server.js <------------------- called with: `npm run local`
+├── styles <---------------------- SASS styling
+│   ├── layout.scss
+│   └── main.scss
+└── views <----------------------- app views/ejs html files
+    ├── index.ejs
+    └── users.ejs
+
+361 directories, 1581 files
+```
 
 [Top](#table-of-contents)
