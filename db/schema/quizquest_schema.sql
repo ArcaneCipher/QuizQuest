@@ -18,7 +18,8 @@ CREATE TABLE quizzes (
   title VARCHAR(255) NOT NULL,
   description TEXT,
   is_public BOOLEAN NOT NULL DEFAULT TRUE,
-  quiz_url VARCHAR(255) NOT NULL
+  quiz_url VARCHAR(255) NOT NULL,
+  category CATEGORY_ENUM NOT NULL DEFAULT 'Other'
 );
 
 CREATE TABLE questions (
@@ -50,3 +51,25 @@ CREATE TABLE user_answers (
   selected_answer_id INTEGER REFERENCES answers(id) ON DELETE CASCADE,
   is_correct BOOLEAN NOT NULL
 );
+
+-- Create the ENUM type for the category
+DO $$ BEGIN
+  CREATE TYPE CATEGORY_ENUM AS ENUM (
+    'Science',
+    'History',
+    'Movies',
+    'Geography',
+    'Technology',
+    'Art',
+    'Superheroes',
+    'Programming',
+    'Animals',
+    'Riddles',
+    'Space',
+    'Sports',
+    'Pop Culture',
+    'Other'
+  );
+EXCEPTION
+  WHEN duplicate_object THEN null; -- Avoid errors if the ENUM type already exists
+END $$;
