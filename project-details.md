@@ -196,6 +196,7 @@ Defining the scope, which includes user stories and MVP
 - description
 - is_public (boolean)
 - quiz_url (randomly generated alphanumeric string)
+- category
 
 !["Quizzes table"](./screenshots/table_quizzes.png)
 
@@ -237,7 +238,6 @@ Defining the scope, which includes user stories and MVP
 
 !["User Answers table"](./screenshots/table_user_answers.png)
 
-
 ### Entity-Relationship Diagram (ERD)
 
 1. users are connected to quizzes (1-to-many).
@@ -269,8 +269,6 @@ Create Quiz Page:
 - Section to add questions and answers dynamically.
 
   !["Create Quiz Wireframe"](./screenshots/create-quiz.png)
-
-
 
 Attempt Quiz Page:
 
@@ -503,10 +501,13 @@ This workflow ensures that everyone stays in sync and reduces the risk of confli
 │   ├── styles <------------------ app css styles
 │   │   ├── layout.css
 │   │   └── main.css
-│   └── vendor <------------------ don't touch?
+│   └── vendor
 │       ├── border-box.css
 │       ├── jquery-3.0.0.js
-│       └── normalize-4.1.1.css
+│       ├── normalize-4.1.1.css
+│       └── bootstrap
+│           ├── bootstrap.bundle.min.js
+│           └── bootstrap.min.css
 ├── routes <---------------------- route & API scripts
 │   ├── users-api.js <------------ routes for User Data
 │   ├── users.js <---------------- routes for Users
