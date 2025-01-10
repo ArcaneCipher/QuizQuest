@@ -28,16 +28,21 @@ app.use(express.static('public'));
 
 // Separated Routes for each Resource
 // Note: Feel free to replace the example routes below with your own
-const userApiRoutes = require('./routes/users-api');
-const widgetApiRoutes = require('./routes/widgets-api');
 const usersRoutes = require('./routes/users');
-
+const widgetApiRoutes = require('./routes/widgets-api');
+const userApiRoutes = require('./routes/users-api');
+const categoryApiRoutes = require('./routes/category-api');
+const quizApiRoutes = require('./routes/all-quizzes-api');
+const searchApiRoutes = require('./routes/search-quiz-api');
 // Mount all resource routes
 // Note: Feel free to replace the example routes below with your own
 // Note: Endpoints that return data (eg. JSON) usually start with `/api`
-app.use('/api/users', userApiRoutes);
-app.use('/api/widgets', widgetApiRoutes);
 app.use('/users', usersRoutes);
+app.use('/api/widgets', widgetApiRoutes);
+app.use('/api/users', userApiRoutes);
+app.use('/api/category', categoryApiRoutes);
+app.use('/api/all-quizzes', quizApiRoutes);
+app.use('/api/search-quiz', searchApiRoutes);
 // Note: mount other resources here, using the same pattern above
 
 // Home page
@@ -45,7 +50,7 @@ app.use('/users', usersRoutes);
 // Separate them into separate routes files (see above).
 
 app.get('/', (req, res) => {
-  res.render('index');
+  res.render('index', { req });
 });
 
 app.listen(PORT, () => {

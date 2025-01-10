@@ -1,0 +1,29 @@
+<header>
+  <nav class="navbar navbar-expand-md fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="/">uiz<br>uest</a>
+      <div class="d-flex justify-content-end align-items-center">
+        <% if (req.originalUrl === '/') { %>
+        <a class="nav-item nav-link search-quiz"><i class="fa-solid fa-magnifying-glass"></i></a>
+        <%}%>
+        <a class="nav-item btn btn-primary me-md-3 ms-md-2 mx-1" href="#">Create a Quiz</a>
+        <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarNavAltMarkup"
+        aria-controls="navbarNavAltMarkup"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="fa fa-user"></span>
+      </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+          <div class="navbar-nav">
+            <a class="nav-item nav-link" href="#">My Quizzes</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
