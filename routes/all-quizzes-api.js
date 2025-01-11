@@ -8,16 +8,10 @@
 const express = require('express');
 const router  = express.Router();
 const db = require('../db/connection');
+const { loadQuery } = require('../lib/utils');
 
 router.get('/', (req, res) => {
-  const query = `SELECT category,     
-                JSON_AGG(
-                  JSON_BUILD_OBJECT('title', title, 'quiz_url', quiz_url)
-                ) AS quizzes 
-                FROM quizzes
-                WHERE is_public = true 
-                GROUP BY category
-                ORDER BY category;`;
+  const query = loadQuery('select_homepage_quizzes.sql');
 
   db.query(query)
     .then(data => {
