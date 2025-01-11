@@ -46,7 +46,7 @@ app.use('/api/widgets', widgetApiRoutes);
 app.use('/api/category', categoryApiRoutes);
 app.use('/api/all-quizzes', quizApiRoutes);
 app.use('/api/search-quiz', searchApiRoutes);
-app.use('/api/quizzes', quizzesApiRoutes);
+app.use('/api/quizzes', userApiRoutes);
 // Note: mount other resources here, using the same pattern above
 
 // Home page
