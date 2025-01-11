@@ -8,9 +8,10 @@
 const express = require('express');
 const router  = express.Router();
 const db = require('../db/connection');
+const { loadQuery } = require('../lib/utils');
 
 router.get('/', (req, res) => {
-  const query = `SELECT DISTINCT category FROM quizzes ORDER BY category;`;
+  const query = loadQuery('select_homepage_categories.sql');
   db.query(query)
     .then(data => {
       const quizzes = data.rows;
