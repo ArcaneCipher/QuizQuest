@@ -5,7 +5,8 @@ INSERT INTO
     title,
     description,
     is_public,
-    quiz_url
+    quiz_url,
+    category
   )
 VALUES
   (
@@ -13,6 +14,7 @@ VALUES
     $2, -- $2: title (quiz title)
     $3, -- $3: description (quiz description)
     $4, -- $4: is_public (boolean for public/private)
-    $5  -- $5: quiz_url (unique URL for sharing)
+    $5, -- $5: quiz_url (unique URL for sharing)
+    $6  -- $6: category (quiz category)
     )
 RETURNING id;

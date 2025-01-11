@@ -4,7 +4,8 @@ SELECT
   title,
   description,
   is_public,
-  creator_id
+  creator_id,
+  category
 FROM
   quizzes
 WHERE

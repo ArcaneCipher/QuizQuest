@@ -3,7 +3,8 @@ SELECT
   id,
   title,
   description,
-  quiz_url
+  quiz_url,
+  category
 FROM
   quizzes
 WHERE
