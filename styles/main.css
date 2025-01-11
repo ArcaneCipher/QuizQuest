@@ -1,0 +1,345 @@
+body {
+  min-height: 100vh;
+  font-family: "Poppins", serif;
+  color: #2f3146;
+  background: #fff url(../img/bg.png);
+  background-size: 1000px;
+  background-attachment: fixed;
+}
+
+.navbar {
+  border-bottom: 1px solid #ddd;
+  padding: 15px 0;
+  background-color: #ffd268;
+}
+.navbar .navbar-nav {
+  align-items: center;
+}
+.navbar .nav-item {
+  font-weight: 500;
+}
+.navbar .nav-item:not(.btn-primary) {
+  color: #2f3146;
+}
+.navbar .navbar-brand {
+  font-size: 1.25rem;
+  position: relative;
+  display: inline-flex;
+  line-height: 1;
+  align-items: center;
+  color: #000000;
+  font-weight: 600;
+}
+.navbar .navbar-brand:before {
+  content: "Q";
+  font-size: 56px;
+  display: inline-flex;
+  color: #3cc4c4;
+}
+
+.hero {
+  padding: 200px 0 100px;
+}
+.hero h1 {
+  font-size: 3rem;
+  margin-bottom: 1.5rem;
+  font-weight: 700;
+}
+.hero h1 + p {
+  font-size: 1.25rem;
+}
+
+#categories {
+  display: flex;
+  gap: 17px;
+  flex-wrap: wrap;
+}
+#categories .category {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 170px;
+  height: 80px;
+  font-weight: 700;
+  border-radius: 8px;
+  text-decoration: none;
+  position: relative;
+  color: var(--bg-color);
+  border: 3px solid var(--bg-color);
+  transition: all 0.3s ease-in;
+}
+#categories .category:hover {
+  background-color: var(--bg-color);
+  color: #fff;
+  box-shadow: 0px 2px 10px var(--bg-color);
+}
+
+.category:nth-child(1) {
+  --bg-color: #3cc4c4;
+}
+
+.category:nth-child(2) {
+  --bg-color: #b26ff2;
+}
+
+.category:nth-child(3) {
+  --bg-color: #ffc744;
+}
+
+.category:nth-child(4) {
+  --bg-color: #64bcf5;
+}
+
+.category:nth-child(5) {
+  --bg-color: #787cff;
+}
+
+.category:nth-child(6) {
+  --bg-color: #ff8f66;
+}
+
+.category:nth-child(7) {
+  --bg-color: #fe749d;
+}
+
+.category:nth-child(8) {
+  --bg-color: #d779f1;
+}
+
+.category:nth-child(9) {
+  --bg-color: #3bd1f2;
+}
+
+.category:nth-child(10) {
+  --bg-color: #2dc8a2;
+}
+
+.category:nth-child(11) {
+  --bg-color: #c8a6f3;
+}
+
+.category:nth-child(12) {
+  --bg-color: #78b7d1;
+}
+
+.category:nth-child(13) {
+  --bg-color: #b8df7f;
+}
+
+.quizzes {
+  padding: 80px 0;
+}
+.quizzes #quizzes {
+  scroll-margin-top: 97px;
+}
+
+.quizzes-group {
+  scroll-margin-top: 97px;
+}
+.quizzes-group .category-title {
+  border-bottom: 1px solid #ddd;
+}
+.quizzes-group .category-title:first-letter {
+  font-size: 32px;
+  /* color: var(--bg-color); */
+}
+.quizzes-group .quiz-list {
+  display: flex;
+  -moz-column-gap: 1rem;
+       column-gap: 1rem;
+}
+.quizzes-group .quiz-list a {
+  padding: 10px 15px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  border-radius: 8px;
+  text-decoration: none;
+  position: relative;
+  background: var(--bg-color);
+  color: #fff;
+}
+.quizzes-group .quiz-list a h4 {
+  font-size: 18px;
+  margin: 0;
+  font-weight: 600;
+}
+
+.backToTopBtn {
+  width: 40px;
+  height: 40px;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #ffd268;
+  color: #2f3146;
+  text-decoration: none;
+  border-radius: 50%;
+  display: none;
+  opacity: 0;
+  transition: all 0.3s ease-in;
+}
+.backToTopBtn.active {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 1;
+}
+.backToTopBtn:hover, .backToTopBtn:focus {
+  color: #fff;
+}
+
+.search-quiz {
+  cursor: pointer;
+}
+
+.search-area {
+  display: none;
+  position: fixed;
+  width: 100%;
+  left: 0;
+  right: 0;
+  top: 97px;
+  padding: 20px;
+  background-color: #3cc4c4;
+  z-index: 9;
+}
+.search-area .search-close {
+  position: absolute;
+  bottom: -30px;
+  background: #3cc4c4;
+  padding: 10px 15px 5px;
+  color: #fff;
+  right: 30px;
+  cursor: pointer;
+}
+.search-area .form-group {
+  position: relative;
+}
+.search-area .form-group .form-control {
+  background: transparent;
+  border-radius: 0;
+  border: 0;
+  height: 48px;
+  color: #fff;
+  border-bottom: 2px solid #fff;
+  padding: 0;
+}
+.search-area .form-group .form-control:focus {
+  border-bottom: 2px solid #fff;
+  color: #fff;
+}
+.search-area .form-group .form-control::-moz-placeholder {
+  color: #fff;
+}
+.search-area .form-group .form-control::placeholder {
+  color: #fff;
+}
+.search-area .form-group .form-control:-moz-placeholder {
+  color: #fff;
+}
+.search-area .form-group #clearSearch {
+  display: none;
+  width: 20px;
+  height: 20px;
+  background: #fff;
+  border: 0;
+  outline: none;
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 0;
+  font-size: 12px;
+}
+
+@media (max-width: 1199px) {
+  #categories .category {
+    width: 173px;
+    height: 60px;
+  }
+}
+@media (max-width: 991px) {
+  #categories .category {
+    width: 161px;
+    height: 60px;
+  }
+  .quizzes-group .quiz-list a h4 {
+    font-size: 16px;
+  }
+}
+@media (max-width: 767px) {
+  .navbar {
+    padding: 8px 0;
+  }
+  .navbar .navbar-brand {
+    font-size: 1rem;
+  }
+  .navbar .navbar-brand:before {
+    font-size: 42px;
+  }
+  .navbar .navbar-toggler:focus {
+    box-shadow: none;
+  }
+  .navbar .btn-primary {
+    font-size: 14px;
+    padding: 8px 12px;
+  }
+  .navbar .search-quiz {
+    font-size: 20px;
+  }
+  .navbar .navbar-collapse {
+    position: absolute;
+    top: 69px;
+    background: #fff;
+    right: 1rem;
+    padding: 5px 15px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1803921569);
+    border-radius: 0 0 6px 6px;
+  }
+  .hero {
+    padding: 150px 0 50px;
+  }
+  .hero h1 {
+    font-size: 2.25rem;
+  }
+  .hero h1 + p {
+    font-size: 18px;
+  }
+  #categories {
+    flex-wrap: nowrap;
+    overflow-x: scroll;
+  }
+  #categories .category {
+    padding: 0 15px;
+    height: 50px;
+    white-space: nowrap;
+  }
+  #categories .category:hover {
+    box-shadow: none;
+  }
+  .quizzes {
+    padding: 50px 0;
+  }
+  .quizzes #quizzes {
+    scroll-margin-top: 70px;
+  }
+  .quizzes .quizzes-group {
+    scroll-margin-top: 70px;
+  }
+  .search-area {
+    top: 69px;
+    padding: 12px 0;
+  }
+}
+@media (max-width: 350px) {
+  .navbar .btn-primary {
+    font-size: 12px;
+    padding: 6px 10px;
+  }
+  .navbar .search-quiz {
+    font-size: 16px;
+  }
+}/*# sourceMappingURL=main.css.map */
