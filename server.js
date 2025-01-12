@@ -32,6 +32,7 @@ const usersRoutes = require('./routes/users');
 const userApiRoutes = require('./routes/users-api');
 const categoryApiRoutes = require('./routes/category-api');
 const quizApiRoutes = require('./routes/all-quizzes-api');
+const quizzesApiRoutes = require('./routes/quizzes-api');
 const testApi = require('./routes/test-api');
 const searchApiRoutes = require('./routes/search-quiz-api');
 
