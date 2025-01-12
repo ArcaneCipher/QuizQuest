@@ -38,16 +38,18 @@
   <section class="play-quiz">
     <div class="container">
       <div class="row">
-        <div class="ol-md-12">
+        <div class="col-md-12">
           <div class="text-center">
             <h1 class="quiz-title"></h1>
             <p class="quiz-description mb-5"></p>
+            <button type="button" id="startQuiz" class="btn btn-secondary">Let's Get Started</button>
           </div>
           <div class="quiz-wrapper">
-            <button id="start">start</button>
             <div id="quiz-container">
               <h2 id="question-title"></h2>
               <div id="answers-container"></div>
+              <div id="question-tracker"></div>
+              <button type="button" id="next-question" class="btn btn-primary" disabled>Next Question</button>
             </div>
           </div>
         </div>

@@ -19,8 +19,13 @@ h1,h2,h3{
   border-color: #3cc4c4;    
   &:hover,&:focus,&:active:focus{
       background-color: #32abab;
-      border-color: #3cc4c4;
+      border-color: #32abab;
       box-shadow: none;
+  }
+  &:disabled,&.disabled{
+    background-color: #3cc4c4;
+    border-color: #3cc4c4;
+    opacity: 0.5;
   }
 }
 .btn-secondary{
