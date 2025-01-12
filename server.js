@@ -33,6 +33,12 @@ const userApiRoutes = require('./routes/users-api');
 const categoryApiRoutes = require('./routes/category-api');
 const quizApiRoutes = require('./routes/all-quizzes-api');
 const quizzesApiRoutes = require('./routes/quizzes-api');
+const quizAttemptApiRoutes = require('./routes/quiz-api');
+const startQuizApiRoutes = require('./routes/start-quiz-api');
+const submitAnswerApiRoutes = require('./routes/submit-answer-api');
+const updateScoreApiRoutes = require('./routes/update-score-api');
+
+const quizRoutes = require('./routes/quiz');
 const testApi = require('./routes/test-api');
 const searchApiRoutes = require('./routes/search-quiz-api');
 
@@ -46,6 +52,11 @@ app.use('/api/users', userApiRoutes);
 app.use('/api/category', categoryApiRoutes);
 app.use('/api/all-quizzes', quizApiRoutes);
 app.use('/api/search-quiz', searchApiRoutes);
+app.use('/api/quiz', quizAttemptApiRoutes);
+app.use('/api/start-quiz', startQuizApiRoutes);
+app.use('/api/submit-answer', submitAnswerApiRoutes);
+app.use('/api/update-score', updateScoreApiRoutes);
+app.use('/quiz', quizRoutes); 
 app.use('/api/test-api', testApi);
 // app.use('/api/quizzes', userApiRoutes); // commenting out to amend for sharing quiz @javin
 app.use('/api/quizzes', quizzesApiRoutes); // amended by Javin
