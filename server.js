@@ -41,7 +41,7 @@ const updateScoreApiRoutes = require('./routes/update-score-api');
 const quizRoutes = require('./routes/quiz');
 const testApi = require('./routes/test-api');
 const searchApiRoutes = require('./routes/search-quiz-api');
-
+const resultsRoutes = require('./routes/results');
 
 // Mount all resource routes
 // Note: Feel free to replace the example routes below with your own
@@ -61,6 +61,7 @@ app.use('/api/test-api', testApi);
 // app.use('/api/quizzes', userApiRoutes); // commenting out to amend for sharing quiz @javin
 app.use('/quizzes', quizzesApiRoutes); // trying this to fix the create a quiz button
 app.use('/api/quizzes', quizzesApiRoutes); // amended by Javin
+app.use('/api/results', resultsRoutes);
 
 // Note: mount other resources here, using the same pattern above
 
