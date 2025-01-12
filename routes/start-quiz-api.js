@@ -18,8 +18,8 @@ router.post('/', async (req, res) => {
 
   db.query(queryString,[user_id, quiz_id, question_total, attempt_url])
     .then(data => {
-      const resultId = data.rows[0].id;
-      res.json({ resultId, attemptUrl });
+      const result_id = data.rows[0].id;
+      res.json({ result_id, attempt_url });
     })
     .catch(err => {
       res

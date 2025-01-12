@@ -16,8 +16,7 @@ router.post('/', (req, res) => {
 
   db.query(queryString,[result_id, question_id, selected_answer_id, is_correct])
     .then(data => {
-      const resultId = data.rows[0].id;
-      res.json({ resultId, attemptUrl });
+      res.json({ success:true });
     })
     .catch(err => {
       res
