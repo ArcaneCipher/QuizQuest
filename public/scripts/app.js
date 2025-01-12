@@ -26,9 +26,13 @@ $(() => {
         const quiz = quizzes[j];
 
         // create each quiz
+        // updated by Javin for quiz sharing button
         const quizItem = $(`
-          <a class="quiz" href="${quiz.quiz_url}">
+          <a class="quiz" href="quiz/${quiz.quiz_url}">
             <h4>${quiz.title}</h4>
+            <button class="share-btn" data-url="${window.location.origin}/quiz/${quiz.quiz_url}">
+            <i class="fa fa-share-alt"></i>
+            </button>
           </a>
         `);
 
@@ -48,10 +52,10 @@ $(() => {
       method: 'GET',
       url: '/api/all-quizzes'
     })
-    .done((response) => {
-      console.log(response);
-      quizIteration(response);
-    });  
+      .done((response) => {
+        console.log(response);
+        quizIteration(response);
+      });
   }
 
   // get all categories
@@ -61,19 +65,19 @@ $(() => {
       method: 'GET',
       url: '/api/category'
     })
-    .done((response) => {
-      const $categories = $('#categories');
-      $categories.empty();
-      
-      // iterate through categories
-      for(let i = 0; i < response.quizzes.length; i++) {
-        const anchor = response.quizzes[i].category;
-        $(`<a href="#${anchor.toLowerCase().replace(/ +/g, "")}" class="category">`).text(response.quizzes[i].category).appendTo($categories);
-      }
-    });
+      .done((response) => {
+        const $categories = $('#categories');
+        $categories.empty();
+
+        // iterate through categories
+        for (let i = 0; i < response.quizzes.length; i++) {
+          const anchor = response.quizzes[i].category;
+          $(`<a href="#${anchor.toLowerCase().replace(/ +/g, "")}" class="category">`).text(response.quizzes[i].category).appendTo($categories);
+        }
+      });
   }
 
-  
+
   $(document).ready(() => {
     getAllQuizzes();
     getAllCategories();
@@ -83,44 +87,54 @@ $(() => {
 
   $(".search-quiz,.search-close").click(() => {
     $(".search-area").slideToggle();
-  })
+  });
+
+  // javin share button handler
+
+  $(document).on('click', '.share-btn', function (e) {
+    e.preventDefault();
+    const url = $(this).data('url');
+    navigator.clipboard.writeText(url)
+      .then(() => alert('Quiz URL copied to clipboard!'));
+  });
+
   $('#searchQuiz').on('keydown', (event) => {
     const query = $('#quiz').val();
     const clearSearch = $('#clearSearch');
-    if(query.length > 0) {
+    if (query.length > 0) {
       clearSearch.fadeIn();
     }
     if (event.key === 'Enter') {
-    event.preventDefault();
-    $.ajax({
-      url: '/api/search-quiz',
-      method: 'GET',
-      data: { query }
-    }).done((response) => {        
+      event.preventDefault();
+      $.ajax({
+        url: '/api/search-quiz',
+        method: 'GET',
+        data: { query }
+      }).done((response) => {
         const $quizzes = $('#quizzes');
         $quizzes.empty();
         console.log(response)
-        if (response.quizzes && response.quizzes.length > 0) {    
+        if (response.quizzes && response.quizzes.length > 0) {
           quizIteration(response);
           $('html, body').animate({
             scrollTop: $('#quizzes').offset().top
-          }, 500); 
+          }, 500);
         } else {
           $quizzes.html('<p>No quizzes found.</p>');
         }
-    });
+      });
     }
   });
 
   // clear search
 
-  $('#clearSearch').on('click', function() {
+  $('#clearSearch').on('click', function () {
     $(this).fadeOut();
     // clear the search input field
-    $('#quiz').val(''); 
+    $('#quiz').val('');
     // show all quizzes
     getAllQuizzes();
-    
+
   });
 
 
@@ -139,11 +153,11 @@ $(() => {
     // show and hide btn
     scrollTop();
     $(window).on("scroll", scrollTop);
-  
+
     // body scroll on btn click
     $(".backToTopBtn").click(() => {
       $("html, body").animate({ scrollTop: 0 }, 1);
       return false;
     });
-  });  
+  });
 });

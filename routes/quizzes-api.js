@@ -10,6 +10,7 @@ const router = express.Router();
 const db = require('../db/connection');
 const { loadQuery, generateRandomString } = require('../lib/utils');
 
+
 // Route to render the "Create Quiz" page
 router.get('/new', (req, res) => {
   res.render('new-quiz-form');
@@ -53,9 +54,12 @@ router.post('/new', async (req, res) => {
   }
 
   try {
-    //Public/Private listed quiz - boolean value for checkbox
-    const isPublic = !!is_public;
+// <<<<<<< feature/create-quiz-frontend
+//     //Public/Private listed quiz - boolean value for checkbox
+//     const isPublic = !!is_public;
 
+// =======
+// >>>>>>> main
     // Generate unique quiz URL
     const quiz_url = await generateRandomString('quizzes', 'quiz_url');
 
@@ -69,7 +73,11 @@ router.post('/new', async (req, res) => {
       quiz_name,
       quiz_description,
       quiz_category,
-      is_public, // Store public/private status for quiz
+// <<<<<<< feature/create-quiz-frontend
+//       is_public, // Store public/private status for quiz
+// =======
+      !!is_public,
+// >>>>>>> main
       quiz_url
     ]);
     const quizId = quizResult.rows[0].id; // Getting the  inserted quiz ID
