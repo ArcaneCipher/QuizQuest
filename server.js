@@ -45,8 +45,10 @@ app.use('/api/users', userApiRoutes);
 app.use('/api/category', categoryApiRoutes);
 app.use('/api/all-quizzes', quizApiRoutes);
 app.use('/api/search-quiz', searchApiRoutes);
-app.use('/api/quizzes', userApiRoutes);
 app.use('/api/test-api', testApi);
+// app.use('/api/quizzes', userApiRoutes); // commenting out to amend for sharing quiz @javin
+app.use('/api/quizzes', quizzesApiRoutes); // amended by Javin
+
 // Note: mount other resources here, using the same pattern above
 
 // Home page

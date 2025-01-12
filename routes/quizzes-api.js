@@ -6,7 +6,7 @@
  */
 
 const express = require('express');
-const router  = express.Router();
+const router = express.Router();
 const db = require('../db/connection');
 const { loadQuery, generateRandomString } = require('../lib/utils');
 
@@ -87,4 +87,19 @@ router.post('/new', async (req, res) => {
    }
   });
 
-  module.exports = router;
+// javin code for sharing quizzes
+router.get('/:quiz_url', (req, res) => {
+  const query = loadQuery('select_share_quizzes_by_url.sql');
+  const params = [req.params.quiz_url];
+
+  db.query(query, params)
+    .then(data => {
+      const quiz = data.rows[0];
+      res.json({ quiz });
+    })
+    .catch(err => {
+      res.status(500).json({ error: err.message });
+    });
+});
+
+module.exports = router;
