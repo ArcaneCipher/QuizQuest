@@ -56,9 +56,10 @@ app.use('/api/quiz', quizAttemptApiRoutes);
 app.use('/api/start-quiz', startQuizApiRoutes);
 app.use('/api/submit-answer', submitAnswerApiRoutes);
 app.use('/api/update-score', updateScoreApiRoutes);
-app.use('/quiz', quizRoutes); 
+app.use('/quiz', quizRoutes);
 app.use('/api/test-api', testApi);
 // app.use('/api/quizzes', userApiRoutes); // commenting out to amend for sharing quiz @javin
+app.use('/quizzes', quizzesApiRoutes); // trying this to fix the create a quiz button
 app.use('/api/quizzes', quizzesApiRoutes); // amended by Javin
 
 // Note: mount other resources here, using the same pattern above

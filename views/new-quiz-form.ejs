@@ -1,0 +1,71 @@
+<!--test from javin to implement new-quiz-form-->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Create New Quiz - QuizQuest</title>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" />
+  <link rel="stylesheet" href="/vendor/border-box.css" />
+  <!-- google fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+    rel="stylesheet">
+  <!-- bootstrap -->
+  <link rel="stylesheet" href="/vendor/bootstrap/bootstrap.min.css">
+  <!-- font awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+  <link rel="stylesheet" href="/styles/main.css" />
+  <link rel="stylesheet" href="/styles/layout.css" />
+
+  <script src="/vendor/jquery-3.0.0.js"></script>
+  <script src="/vendor/bootstrap/bootstrap.bundle.min.js"></script>
+</head>
+
+<body class="scroll-snap">
+  <%- include('partials/_header', { req: req }) %>
+
+    <div class="container mt-5 pt-5">
+      <div class="container" style="margin-top: 15vh;">
+        <h2>Create New Quiz</h2>
+        <form action="/quizzes/new" method="POST">
+          <div class="form-group mb-3">
+            <label>Quiz Title</label>
+            <input type="text" name="quiz_name" class="form-control" required>
+          </div>
+          <div class="form-group mb-3">
+            <label>Description</label>
+            <textarea name="quiz_description" class="form-control" required></textarea>
+          </div>
+          <div class="form group mb-3">
+            <label>Category</label>
+            <select name="quiz_category" class="form-control" required> <!-- use this query instead of hardcoding: db/queries/select_homepage_categories.sql-->
+              <option value="Science">Science</option>
+              <option value="History">History</option>
+              <option value="Movies">Movies</option>
+              <option value="Geography">Geography</option>
+              <option value="Technology">Technology</option>
+              <option value="Art">Art</option>
+              <option value="Superheroes">Superheroes</option>
+              <option value="Programming">Programming</option>
+              <option value="Animals">Animals</option>
+              <option value="Riddles">Riddles</option>
+              <option value="Space">Space</option>
+              <option value="Sports">Sports</option>
+              <option value="Pop Culture">Pop Culture</option>
+            </select>
+          </div>
+          <div class="form-check mb-3">
+            <input type="checkbox" name="is_public" class="form-check-input" checked>
+            <label class="form-check-label">Make Quiz Public</label>
+          </div>
+          <button type="submit" class="btn btn-primary">Create Quiz</button>
+        </form>
+      </div>

@@ -13,7 +13,7 @@ const { loadQuery, generateRandomString } = require('../lib/utils');
 
 // Route to render the "Create Quiz" page
 router.get('/new', (req, res) => {
-  res.render('new-quiz-form');
+  res.render('new-quiz-form', { req }); // pass req object to template
 });
 
 // Route to create a new quiz
