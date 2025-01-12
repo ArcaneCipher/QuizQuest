@@ -27,7 +27,7 @@ $(() => {
 
         // create each quiz
         const quizItem = $(`
-          <a class="quiz" href="${quiz.quiz_url}">
+          <a class="quiz" href="quiz/${quiz.quiz_url}">
             <h4>${quiz.title}</h4>
           </a>
         `);

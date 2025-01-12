@@ -35,6 +35,12 @@ const quizApiRoutes = require('./routes/all-quizzes-api');
 const searchApiRoutes = require('./routes/search-quiz-api');
 const quizzesApiRoutes = require('./routes/quizzes-api');
 const widgetApiRoutes = require('./routes/widgets-api');
+const quizAttemptApiRoutes = require('./routes/quiz-api');
+const startQuizApiRoutes = require('./routes/start-quiz-api');
+const submitAnswerApiRoutes = require('./routes/submit-answer-api');
+const updateScoreApiRoutes = require('./routes/update-score-api');
+
+const quizRoutes = require('./routes/quiz');
 
 // Mount all resource routes
 // Note: Feel free to replace the example routes below with your own
@@ -47,6 +53,11 @@ app.use('/api/category', categoryApiRoutes);
 app.use('/api/all-quizzes', quizApiRoutes);
 app.use('/api/search-quiz', searchApiRoutes);
 app.use('/api/quizzes', userApiRoutes);
+app.use('/api/quiz', quizAttemptApiRoutes);
+app.use('/api/start-quiz', startQuizApiRoutes);
+app.use('/api/submit-answer', submitAnswerApiRoutes);
+app.use('/api/update-score', updateScoreApiRoutes);
+app.use('/quiz', quizRoutes); 
 // Note: mount other resources here, using the same pattern above
 
 // Home page

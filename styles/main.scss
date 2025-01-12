@@ -219,14 +219,36 @@ body {
   }
 }
 
+// quiz-wrapper
+.play-quiz{
+  padding: 150px 0 50px;
+  .quiz-wrapper {
+    border-radius: 30px;
+    padding: 40px;
+    box-shadow: 0px 1px 51px 0px rgba(1, 1, 1, 0.1);
+    background: #fff;
+    position: relative;
+    &::after ,&::before{
+      content: '';
+      bottom: 0;
+      right: -10px;
+      z-index: -1;
+      width: 95%;
+      height: 95%;
+      position: absolute;
+      border-radius: 30px;
+      transform: rotate(1deg);
+      background-color: #ffd268;
+    }
+    &::before{
+      top: 0;
+      left: -10px;
+      background-color: #3cc4c4;
+    }
 
-
-
-
-
-
-
-
+  }
+  
+}
 
 // media queries
 @media(max-width:1199px){
