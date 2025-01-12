@@ -47,7 +47,10 @@
           <div class="form group mb-3">
             <label>Category</label>
             <select name="quiz_category" class="form-control" required> <!-- use this query instead of hardcoding: db/queries/select_homepage_categories.sql-->
-              <option value="Science">Science</option>
+              <% categories.forEach(category => { %>
+              <option value="<%= category.category %>"><%= category.category %></option>
+            <% }); %>
+              <!-- <option value="Science">Science</option>
               <option value="History">History</option>
               <option value="Movies">Movies</option>
               <option value="Geography">Geography</option>
@@ -59,7 +62,7 @@
               <option value="Riddles">Riddles</option>
               <option value="Space">Space</option>
               <option value="Sports">Sports</option>
-              <option value="Pop Culture">Pop Culture</option>
+              <option value="Pop Culture">Pop Culture</option> -->
             </select>
           </div>
           <div class="form-check mb-3">
