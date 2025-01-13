@@ -64,12 +64,6 @@ router.post('/new', async (req, res) => {
   }
 
   try {
-    // <<<<<<< feature/create-quiz-frontend
-    //     //Public/Private listed quiz - boolean value for checkbox
-    //     const isPublic = !!is_public;
-
-    // =======
-    // >>>>>>> main
     // Generate unique quiz URL
     const quiz_url = await generateRandomString('quizzes', 'quiz_url');
 
@@ -83,11 +77,7 @@ router.post('/new', async (req, res) => {
       quiz_name,
       quiz_description,
       quiz_category,
-      // <<<<<<< feature/create-quiz-frontend
-      //       is_public, // Store public/private status for quiz
-      // =======
       !!is_public,
-      // >>>>>>> main
       quiz_url
     ]);
     const quizId = quizResult.rows[0].id; // Getting the  inserted quiz ID
