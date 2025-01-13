@@ -34,6 +34,7 @@ const categoryApiRoutes = require('./routes/category-api');
 const quizApiRoutes = require('./routes/all-quizzes-api');
 const testApi = require('./routes/test-api');
 const searchApiRoutes = require('./routes/search-quiz-api');
+const quizzesApiRoutes = require('./routes/create-quiz-api');
 
 
 // Mount all resource routes
@@ -47,7 +48,7 @@ app.use('/api/all-quizzes', quizApiRoutes);
 app.use('/api/search-quiz', searchApiRoutes);
 app.use('/api/test-api', testApi);
 // app.use('/api/quizzes', userApiRoutes); // commenting out to amend for sharing quiz @javin
-app.use('/api/quizzes', quizzesApiRoutes); // amended by Javin
+app.use('/quizzes', quizzesApiRoutes);
 
 // Note: mount other resources here, using the same pattern above
 

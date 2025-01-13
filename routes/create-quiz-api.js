@@ -72,21 +72,42 @@ router.post('/new', async (req, res) => {
       is_public, // Store public/private status for quiz
       quiz_url
     ]);
-    const quizId = quizResult.rows[0].id; // Getting the  inserted quiz ID
+    const quizId = quizResult.rows[0].id; // Getting the inserted quiz ID
 
-    // Add questions + answers
-    for (const question of questions) {
-      const questionResult = await db.query(insertQuestionQuery, [quizId, question.text]);
-      const questionId = questionResult.rows[0].id; //Getting the inserted question ID
+    // Dynamically add questions + answer
+        for (const questionId in questions) {
+          const question = questions[questionId];
 
-      for (const [index, answer] of question.annswers.entires()) {
-        await db.query(insertAnswerQuery, [
-          questionId,
-          answer.text,
-          index === Number(question.correct), //Correct answer is marked
-        ]);
+          // Validate that the question has exactly one correct answer
+      const correctAnswers = Object.keys(question.answers).filter(
+        (answerId) => answerId === question.correct
+      );
+      if (correctAnswers.length !== 1) {
+        return res
+          .status(400)
+          .json({ error: `Question "${question.text}" must have exactly one correct answer.` });
       }
-    }
+    
+          // Insert the question into the database
+          const insertQuestionQuery = loadQuery('insert_question_for_quiz.sql');
+          const questionResult = await db.query(insertQuestionQuery, [quizId, question.text]);
+          
+          // Get the inserted question's database ID
+          const questionDbId = questionResult.rows[0].id;
+    
+          // Iterate over the answers object within the current question
+          for (const answerId in question.answers) {
+            const answer = question.answers[answerId];
+    
+            // Insert the answer into the database
+            const insertAnswerQuery = loadQuery('insert_answer_for_question.sql');
+            await db.query(insertAnswerQuery, [
+              questionDbId,
+              answer.text,
+              answerId === question.correct,
+            ]);
+          }
+        }
 
     res.status(201).redirect(`/quizzes/${quiz_url}`); //Redirecting to created quiz page
   } catch (err) {
