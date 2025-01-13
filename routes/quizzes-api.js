@@ -9,7 +9,17 @@ const express = require('express');
 const router = express.Router();
 const db = require('../db/connection');
 const { loadQuery, generateRandomString } = require('../lib/utils');
+const { getCategories } = require('../db/queries/categories'); // new for categories
 
+//new for get route for quiz categories
+router.get('/new', (req, res) => {
+  getCategories()
+    .then(categories => {
+      res.render('new-quiz-form', {
+        req, categories
+      });
+    });
+});
 
 // Route to render the "Create Quiz" page
 router.get('/new', (req, res) => {
@@ -18,7 +28,7 @@ router.get('/new', (req, res) => {
 
 // Route to create a new quiz
 router.post('/new', async (req, res) => {
-  const {quiz_name, quiz_description, quiz_category, is_public, questions } = req.body;
+  const { quiz_name, quiz_description, quiz_category, is_public, questions } = req.body;
 
   // Validation: Ensure all required fields are filled - no blanks entries!
   if (!quiz_name || !quiz_description || !quiz_category) {
@@ -54,12 +64,12 @@ router.post('/new', async (req, res) => {
   }
 
   try {
-// <<<<<<< feature/create-quiz-frontend
-//     //Public/Private listed quiz - boolean value for checkbox
-//     const isPublic = !!is_public;
+    // <<<<<<< feature/create-quiz-frontend
+    //     //Public/Private listed quiz - boolean value for checkbox
+    //     const isPublic = !!is_public;
 
-// =======
-// >>>>>>> main
+    // =======
+    // >>>>>>> main
     // Generate unique quiz URL
     const quiz_url = await generateRandomString('quizzes', 'quiz_url');
 
@@ -73,11 +83,11 @@ router.post('/new', async (req, res) => {
       quiz_name,
       quiz_description,
       quiz_category,
-// <<<<<<< feature/create-quiz-frontend
-//       is_public, // Store public/private status for quiz
-// =======
+      // <<<<<<< feature/create-quiz-frontend
+      //       is_public, // Store public/private status for quiz
+      // =======
       !!is_public,
-// >>>>>>> main
+      // >>>>>>> main
       quiz_url
     ]);
     const quizId = quizResult.rows[0].id; // Getting the  inserted quiz ID
@@ -100,8 +110,8 @@ router.post('/new', async (req, res) => {
   } catch (err) {
     console.error('Error creating quiz:', err.message);
     res.status(500).send('Internal server error');
-   }
-  });
+  }
+});
 
 // javin code for sharing quizzes
 router.get('/:quiz_url', (req, res) => {
