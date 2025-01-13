@@ -4,6 +4,7 @@ $(() => {
     const path = window.location.pathname;
     const quizUrl = path.split('/').pop();
     let resultId;
+    let attemptURL;
     let totalQuestions = 0;
 
     // fetch quiz data
@@ -43,7 +44,8 @@ $(() => {
           })
             .done((response) => {
               // console.log(response) // response contains result_id and attempt_url
-              resultId = response.result_id
+              resultId = response.result_id;
+              attemptURL = response.attempt_url
               $('#startQuiz').hide();
               $('.quiz-wrapper').show();
               renderQuestion();
@@ -139,10 +141,20 @@ $(() => {
               data: { result_id: resultId },
             })
               .done((response) => {
-                console.log("Score updated")
-              });
+                console.log("Score updated", response);
+                  $.ajax({
+                    method: 'GET',
+                    url: `/api/result/${attemptURL}`,
+                  })
+                    .done((response) => {
+                      console.log(response) // response contains result_id and attempt_url
+                      window.location.href = `/result/${attemptURL}`;
 
-            $('#quiz-container').html('<h3 class="text-center">You have completed the quiz!</h3>');
+                        // Update the achieved score dynamically
+                        const achievedScore = 4; // Example: Change this value as needed
+                        document.documentElement.style.setProperty('--achieved', achievedScore);
+                    });
+                });
             nextQuestion.remove(); // remove the next button
           }
         };
