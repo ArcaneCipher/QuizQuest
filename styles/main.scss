@@ -49,7 +49,7 @@ body {
 // hero
 
 .hero {
-  padding: 200px 0 100px;
+  padding: 100px 0;
   h1 {
     font-size: 3rem;
     margin-bottom: 1.5rem;
@@ -225,36 +225,16 @@ body {
 
 .play-quiz{
   min-height: 100vh;
-  padding: 150px 0 50px;
+  padding: 50px 0;
   #question-tracker {
     position: absolute;
     right: 30px;
     bottom: 30px;
 }
   .quiz-wrapper {
-    border-radius: 30px;
     padding: 40px;
-    box-shadow: 0px 1px 51px 0px rgba(1, 1, 1, 0.1);
-    background: #fff;
     position: relative;
     display: none;
-    &::after ,&::before{
-      content: '';
-      bottom: 0;
-      right: -10px;
-      z-index: -1;
-      width: 95%;
-      height: 95%;
-      position: absolute;
-      border-radius: 30px;
-      transform: rotate(1deg);
-      background-color: #ffd268;
-    }
-    &::before{
-      top: 0;
-      left: -10px;
-      background-color: #3cc4c4;
-    }
   }
   #question-title {
     @include flex-center;
@@ -360,7 +340,90 @@ body {
   }
 }
 
+.bg-layout{
+  position: relative;
+  box-shadow: 0px 1px 51px 0px rgba(1, 1, 1, 0.1);
+  background: #fff;
+  border-radius: 30px;
+  &::after ,&::before{
+    content: '';
+    bottom: 0;
+    right: -10px;
+    z-index: -1;
+    width: 95%;
+    height: 95%;
+    position: absolute;
+    border-radius: 30px;
+    transform: rotate(1deg);
+    background-color: #ffd268;
+  }
+  &::before{
+    top: 0;
+    left: -10px;
+    background-color: #3cc4c4;
+  }
+}
+// results
 
+.results {
+  padding: 50px 0; // Add spacing to separate from the header further, if needed
+  li {
+    padding: 1rem;
+    border-radius: 8px;
+    color: #fff;
+    margin-bottom: 1rem;
+    &.correct-answer {
+      background: #2dc8a2 url(../img/correct.svg) no-repeat;
+      background-size: 24px;
+      background-position: center right 15px;
+    }
+    &.wrong-answer {
+      background: #e74575 url(../img/wrong.svg) no-repeat;
+      background-size: 24px;
+      background-position: center right 15px;
+    }
+    strong {
+      display: inline-block;
+      margin-right: 5px;
+    }
+  }
+}
+
+.pie-chart {
+  width: 150px;
+  height: 150px;
+  background: conic-gradient(
+    #2dc8a2 calc(var(--percentage) * 1%), 
+    #e74575 calc(var(--percentage) * 1%)
+  );
+  border-radius: 50%;
+  @include flex-center;
+  position: relative;
+  font-size: 28px;
+  font-weight: bold;
+  margin: 50px auto 30px;
+  &::after {
+    content: "";
+    width: 100px;
+    height: 100px;
+    background: #fff;
+    border-radius: 50%;
+    position: absolute;
+  }
+  .score {
+    position: relative;
+    z-index: 1;
+  }
+}
+.primary-link{
+  color: #3cc4c4;
+  font-weight: 600;
+  text-underline-offset: 4px;
+  text-decoration-thickness: 2px;
+  &:hover{
+    color: #3cc4c4;
+  }
+}
 
 
 
@@ -385,6 +448,9 @@ body {
   .play-quiz #question-title {
     font-size: 16px;
     font-weight: 500;
+  }
+  .pie-chart {
+    margin: 30px auto;
   }
 }
 @media(max-width:767px){
@@ -417,7 +483,7 @@ body {
     }
   }
   .hero {
-    padding: 150px 0 50px;
+    padding: 50px 0;
     h1{
       font-size: 2.25rem;
       + p {
@@ -451,7 +517,6 @@ body {
     padding: 12px 0;
   }
   .play-quiz {
-    padding: 110px 0 50px;
     .quiz-wrapper {
       padding-bottom: 80px;
       margin: 0 10px;
@@ -489,6 +554,9 @@ body {
       }
     }
   }
+  .results {
+    padding: 50px 10px;
+  }
 }
 
 @media(max-width:350px){
@@ -503,35 +571,3 @@ body {
   }
 }
 
-.results {
-  padding: 20px 0; // Add spacing to separate from the header further, if needed
-
-  h1 {
-    font-size: 2rem;
-    font-weight: 700;
-    margin-bottom: 1rem;
-  }
-
-  ul {
-    list-style-type: none;
-    padding: 0;
-  }
-
-  li {
-    padding: 10px 0;
-    border-bottom: 1px solid #ddd;
-
-    strong {
-      display: inline-block;
-      margin-right: 5px;
-    }
-  }
-
-  .correct {
-    color: #2dc8a2;
-  }
-
-  .incorrect {
-    color: #e74575;
-  }
-}

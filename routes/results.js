@@ -20,7 +20,6 @@ router.get("/:attempt_url", async (req, res) => {
   try {
     const values = [attempt_url];
     const result = await db.query(query, values);
-
     if (result.rows.length === 0) {
       return res.status(404).render("error", { message: "Result not found" });
     }
@@ -30,6 +29,7 @@ router.get("/:attempt_url", async (req, res) => {
       result_id: result.rows[0].result_id,
       quiz_id: result.rows[0].quiz_id,
       quiz_title: result.rows[0].quiz_title,
+      quiz_url: result.rows[0].quiz_url,
       score: result.rows[0].score,
       question_total: result.rows[0].question_total,
       attempt_url: result.rows[0].attempt_url,

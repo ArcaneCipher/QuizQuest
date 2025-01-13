@@ -32,6 +32,7 @@ router.get("/:attempt_url", async (req, res) => {
       result_id: result.rows[0].result_id,
       quiz_id: result.rows[0].quiz_id,
       score: result.rows[0].score,
+      quiz_url: result.rows[0].quiz_url,
       question_total: result.rows[0].question_total,
       attempt_url: result.rows[0].attempt_url,
       answers: result.rows.map((row) => ({

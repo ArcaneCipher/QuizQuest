@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-  <title>Quiz Results</title>
+  <title><%= quizResult.quiz_title %> - Results</title>
 
   <meta charset="UTF-8" >
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
@@ -24,33 +24,64 @@
 
   <script src="/vendor/jquery-3.0.0.js"></script>
   <script src="/vendor/bootstrap/bootstrap.bundle.min.js"></script>
-  <script defer src="/scripts/app.js"></script>
+  <style>
+    
+    :root {
+      --score: <%= quizResult.score %>;
+      --total: <%= quizResult.question_total %>;
+      --percentage: calc((var(--score) / var(--total)) * 100);
+    }
+
+  </style>
 </head>
 
 <body>
   <!-- Include the header -->
   <%- include('partials/_header', { req: req }) %>
 
-  <section class="results content-wrapper">
+  <section class="results">
     <div class="container">
       <div class="row">
         <div class="col-md-12">
-          <h1>Quiz Results</h1>
-          <p><strong>Quiz Title:</strong> <%= quizResult.quiz_title %></p>
-          <p><strong>Score:</strong> <%= quizResult.score %> / <%= quizResult.question_total %></p>
-          <h3>Your Answers:</h3>
-          <ul>
-            <% quizResult.answers.forEach(answer => { %>
-              <li>
-                <strong>Question:</strong> <%= answer.question_text %><br>
-                <strong>Your Answer:</strong> <%= answer.selected_answer_text %><br>
-                <strong>Correct:</strong> <%= answer.is_correct ? "Yes" : "No" %><br>
-                <% if (!answer.is_correct) { %>
-                  <strong>Correct Answer:</strong> <%= answer.correct_answer_text %>
+          <h1 class="text-center mb-5">Quiz Results</h1>          
+        </div>
+      </div>
+      <div class="bg-layout p-md-5 px-3 py-5">
+        <div class="row">
+          <div class="col-lg-7">
+            <h3 class="d-lg-none d-block text-center mb-4"><%= quizResult.quiz_title %></h3>
+            <ul class="list-unstyled">
+              <% quizResult.answers.forEach(answer => { %>
+                <% if (answer.is_correct) { %>
+                <li class="correct-answer"> 
+                <% } else { %>  
+                <li class="wrong-answer"> 
                 <% } %>
-              </li>
-            <% }) %>
-          </ul>
+                  <strong>Question:</strong> <%= answer.question_text %><br>
+                  <strong>Your Answer:</strong> <%= answer.selected_answer_text %><br>
+                  <% if (!answer.is_correct) { %>
+                    <strong>Correct Answer:</strong> <%= answer.correct_answer_text %>
+                  <% } %>
+                </li>
+              <% }) %>
+            </ul>
+          </div>
+          <div class="col-lg-5 text-center">
+              <h3 class="d-lg-block d-none"><%= quizResult.quiz_title %></h3>
+              <div class="pie-chart">
+                <div class="score"><%= quizResult.score %>/<%= quizResult.question_total %></div>
+              </div>
+              <p>
+                <% if (quizResult.score > 3) { %>
+                  <b>Congratulations!</b><br>
+                <% } %>
+                you got <%= quizResult.score %>/<%= quizResult.question_total %> answers correct! <br>
+                <% if (quizResult.score <= 3) { %>
+                  Want to <a href="/quiz/<%= quizResult.quiz_url %>" class="primary-link">Reattempt Quiz</a>?
+                <% } %>
+              </p>  
+              <a href="/" class="btn btn-secondary mt-4">Back to Quizzes</a>
+          </div>
         </div>
       </div>
     </div>

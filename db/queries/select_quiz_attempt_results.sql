@@ -3,6 +3,7 @@ SELECT
   r.id AS result_id,
   r.quiz_id,
   qz.title AS quiz_title,
+  qz.quiz_url,
   r.score,
   r.question_total,
   r.attempt_url,
