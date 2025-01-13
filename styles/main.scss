@@ -6,7 +6,7 @@ body {
   background-size: 1000px;
   background-attachment: fixed;
 }
-// mixin 
+// mixin
 
 @mixin flex-center {
   display: flex;
@@ -25,7 +25,7 @@ body {
   }
   .nav-item{
     font-weight: 500;
-    &:not(.btn-primary){    
+    &:not(.btn-primary){
       color: #2f3146;
     }
   }
@@ -58,7 +58,7 @@ body {
       font-size: 1.25rem;
     }
   }
-  
+
 }
 
 // category
@@ -74,7 +74,7 @@ body {
     font-weight: 700;
     border-radius: 8px;
     text-decoration: none;
-    position: relative;    
+    position: relative;
     color: var(--bg-color);
     border: 3px solid var(--bg-color);
     transition: all 0.3s ease-in;
@@ -90,7 +90,7 @@ body {
 .category:nth-child(3) { --bg-color: #ffc744; }
 .category:nth-child(4) { --bg-color: #64bcf5; }
 .category:nth-child(5) { --bg-color: #787cff; }
-.category:nth-child(6) { --bg-color: #ff8f66; } 
+.category:nth-child(6) { --bg-color: #ff8f66; }
 .category:nth-child(7) { --bg-color: #fe749d; }
 .category:nth-child(8) { --bg-color: #d779f1; }
 .category:nth-child(9) { --bg-color: #3bd1f2; }
@@ -121,7 +121,7 @@ body {
     column-gap: 1rem;
     a {
       padding: 10px 15px;
-      border-radius: 6px;      
+      border-radius: 6px;
       @include flex-center;
       font-weight: 700;
       border-radius: 8px;
@@ -336,7 +336,7 @@ body {
           border-color: #2dc8a2;
           mix-blend-mode: color;
         }
-      }      
+      }
       input.wrong-answer + label {
         background: #e74575 url(../img/wrong.svg) no-repeat;
         background-size: 24px;
@@ -349,7 +349,7 @@ body {
           mix-blend-mode: color;
         }
       }
-    } 
+    }
     input[type="radio"][name="answers"] {
       display: none;
   }
@@ -414,7 +414,7 @@ body {
       padding: 5px 15px;
       box-shadow: 0 2px 5px #0000002e;
       border-radius: 0 0 6px 6px;
-    }  
+    }
   }
   .hero {
     padding: 150px 0 50px;
@@ -457,7 +457,7 @@ body {
       margin: 0 10px;
     }
     #question-title {
-      margin-bottom: 30px;        
+      margin-bottom: 30px;
       font-size: 14px;
       line-height: 18px;
     }
@@ -500,5 +500,38 @@ body {
     .search-quiz {
       font-size: 16px;
     }
+  }
+}
+
+.results {
+  padding: 20px 0; // Add spacing to separate from the header further, if needed
+
+  h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+  }
+
+  ul {
+    list-style-type: none;
+    padding: 0;
+  }
+
+  li {
+    padding: 10px 0;
+    border-bottom: 1px solid #ddd;
+
+    strong {
+      display: inline-block;
+      margin-right: 5px;
+    }
+  }
+
+  .correct {
+    color: #2dc8a2;
+  }
+
+  .incorrect {
+    color: #e74575;
   }
 }

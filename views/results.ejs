@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Quiz Results</title>
+
+  <meta charset="UTF-8" >
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" >
+
+  <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" />
+  <link rel="stylesheet" href="/vendor/border-box.css" />
+  <!-- google fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+  <!-- bootstrap -->
+  <link rel="stylesheet" href="/vendor/bootstrap/bootstrap.min.css">
+  <!-- font awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="/styles/main.css" />
+  <link rel="stylesheet" href="/styles/layout.css" />
+
+
+  <script src="/vendor/jquery-3.0.0.js"></script>
+  <script src="/vendor/bootstrap/bootstrap.bundle.min.js"></script>
+  <script defer src="/scripts/app.js"></script>
+</head>
+
+<body>
+  <!-- Include the header -->
+  <%- include('partials/_header', { req: req }) %>
+
+  <section class="results content-wrapper">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <h1>Quiz Results</h1>
+          <p><strong>Quiz Title:</strong> <%= quizResult.quiz_title %></p>
+          <p><strong>Score:</strong> <%= quizResult.score %> / <%= quizResult.question_total %></p>
+          <h3>Your Answers:</h3>
+          <ul>
+            <% quizResult.answers.forEach(answer => { %>
+              <li>
+                <strong>Question:</strong> <%= answer.question_text %><br>
+                <strong>Your Answer:</strong> <%= answer.selected_answer_text %><br>
+                <strong>Correct:</strong> <%= answer.is_correct ? "Yes" : "No" %><br>
+                <% if (!answer.is_correct) { %>
+                  <strong>Correct Answer:</strong> <%= answer.correct_answer_text %>
+                <% } %>
+              </li>
+            <% }) %>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</body>
+
+</html>

@@ -21,32 +21,30 @@ router.get("/:attempt_url", async (req, res) => {
     const values = [attempt_url];
     const result = await db.query(query, values);
 
+    // console.log(result.rows); // debugging log
+
     if (result.rows.length === 0) {
-      return res.status(404).render("error", { message: "Result not found" });
+      return res.status(404).json({ error: "Result not found" });
     }
 
     // Format the response
     const quizResult = {
       result_id: result.rows[0].result_id,
       quiz_id: result.rows[0].quiz_id,
-      quiz_title: result.rows[0].quiz_title,
       score: result.rows[0].score,
       question_total: result.rows[0].question_total,
       attempt_url: result.rows[0].attempt_url,
-      answers: result.rows.map(row => ({
+      answers: result.rows.map((row) => ({
         question_id: row.question_id,
-        question_text: row.question_text,
         selected_answer_id: row.selected_answer_id,
-        selected_answer_text: row.selected_answer_text,
-        correct_answer_text: row.correct_answer_text,
         is_correct: row.is_correct,
       })),
     };
 
-    res.render("results", { quizResult, req });
+    res.status(200).json(quizResult);
   } catch (error) {
     console.error("Error fetching quiz result:", error.message);
-    res.status(500).render("error", { message: "Internal server error" });
+    res.status(500).json({ error: "Internal server error" });
   }
 });
 
