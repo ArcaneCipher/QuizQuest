@@ -19,7 +19,7 @@ $(() => {
 
         const quizData = response.quiz[0];
         const questionAnswers = quizData.questions_and_answers;
-        totalQuestions = questionAnswers.length
+        totalQuestions = questionAnswers.length;
         let currentQuestionIndex = 0;
 
         // payload to send to /api/start-quiz
@@ -65,15 +65,45 @@ $(() => {
 
           if (timeLeft <= 0) {
             clearInterval(timerInterval);
-            //auto - submit quiz
-            $.ajax({
-              method: 'POST',
-              url: '/api/update-score',
-              data: { result_id: resultId },
-            })
-              .done(() => {
+            // get current answer if they're selected
+            const currentQuestion = questionAnswers[currentQuestionIndex];
+            const selectedAnswer = $('input[name="answers"]:checked');
+
+            if (selectedAnswer.length > 0) {
+              // submit last answer, even if none selected
+              const answerPayLoad = {
+                result_id: resultId,
+                question_id: currentQuestion.question_id,
+                selected_answer_id: selectedAnswer.val(),
+                is_correct: currentQuestion.answers.find(a => a.answer_id == selectedAnswer.val()).is_correct
+              };
+
+
+              $.ajax({
+                method: 'POST',
+                url: '/api/submit-answer',
+                data: answerPayLoad,
+              }).always(() => {
+
+                //auto - submit quiz
+                $.ajax({
+                  method: 'POST',
+                  url: '/api/update-score',
+                  data: { result_id: resultId },
+                }).done(() => {
+                  window.location.href = `/result/${attemptURL}`;
+                });
+              });
+            } else {
+              // no answer selected, just update the score and redirect to results
+              $.ajax({
+                method: 'POST',
+                url: '/api/update-score',
+                data: { result_id: resultId }
+              }).done(() => {
                 window.location.href = `/result/${attemptURL}`;
               });
+            }
           }
         }, 1000);
 
