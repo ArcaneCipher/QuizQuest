@@ -43,6 +43,7 @@ const testApi = require('./routes/test-api');
 const searchApiRoutes = require('./routes/search-quiz-api');
 const resultsApiRoutes = require('./routes/results-api');
 const resultsRoutes = require('./routes/results');
+const analyticsRoutes = require('./routes/quiz-analytics');
 
 // Mount all resource routes
 // Note: Feel free to replace the example routes below with your own
@@ -64,6 +65,7 @@ app.use('/quizzes', quizzesApiRoutes); // trying this to fix the create a quiz b
 app.use('/api/quizzes', quizzesApiRoutes); // amended by Javin
 app.use('/api/result', resultsApiRoutes);
 app.use('/result', resultsRoutes);
+app.use('/analytics', analyticsRoutes);
 
 // Note: mount other resources here, using the same pattern above
 

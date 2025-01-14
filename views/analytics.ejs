@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Quiz Analytics</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/vendor/bootstrap/bootstrap.min.css">
+  <link rel="stylesheet" href="/styles/main.css">
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <style>
+    .bar {
+      fill: steelblue;
+    }
+    .bar:hover {
+      fill: orange;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Include the header -->
+  <%- include('partials/_header', { req: req }) %>
+
+  <section class="analytics">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <h1 class="text-center mb-5">Analytics for <%= analyticsData.quiz_title %></h1>
+        </div>
+      </div>
+
+      <div class="bg-layout p-md-5 px-3 py-5">
+        <div class="row">
+          <div class="col-md-6">
+            <h3>Quiz Summary</h3>
+            <p><b>Number of Attempts:</b> <%= analyticsData.attempt_count %></p>
+            <p><b>Average Score:</b> <%= analyticsData.average_score %></p>
+          </div>
+
+          <div class="col-md-6">
+            <h3>Top Users</h3>
+            <ul class="list-unstyled">
+              <% analyticsData.top_users.forEach(user => { %>
+                <li>
+                  <b><%= user.user_name %>:</b> <%= user.user_score %> points
+                </li>
+              <% }); %>
+            </ul>
+          </div>
+        </div>
+
+        <div class="row mt-5">
+          <div class="col-md-12">
+            <h3>Score Distribution</h3>
+            <svg id="score-chart" width="600" height="400"></svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    const data = <%- JSON.stringify(analyticsData.top_users) %>; // Pass top users to D3.js
+
+    const svg = d3.select('#score-chart');
+    const width = +svg.attr('width');
+    const height = +svg.attr('height');
+    const margin = { top: 20, right: 30, bottom: 40, left: 40 };
+
+    const chartWidth = width - margin.left - margin.right;
+    const chartHeight = height - margin.top - margin.bottom;
+
+    const g = svg.append('g').attr('transform', `translate(${margin.left},${margin.top})`);
+
+    const x = d3.scaleBand()
+      .domain(data.map(d => d.user_name))
+      .range([0, chartWidth])
+      .padding(0.1);
+
+    const y = d3.scaleLinear()
+      .domain([0, d3.max(data, d => d.user_score)])
+      .nice()
+      .range([chartHeight, 0]);
+
+    g.append('g')
+      .call(d3.axisLeft(y));
+
+    g.append('g')
+      .attr('transform', `translate(0,${chartHeight})`)
+      .call(d3.axisBottom(x));
+
+    g.selectAll('.bar')
+      .data(data)
+      .enter().append('rect')
+      .attr('class', 'bar')
+      .attr('x', d => x(d.user_name))
+      .attr('y', d => y(d.user_score))
+      .attr('width', x.bandwidth())
+      .attr('height', d => chartHeight - y(d.user_score));
+  </script>
+</body>
+
+</html>
