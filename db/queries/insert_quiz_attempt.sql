@@ -11,8 +11,8 @@ VALUES
   (
     $1, -- $1: user_id
     $2, -- $2: quiz_id
-    $3, -- $3: score
-    $4, -- $4: question_total (total number of questions in the quiz)
-    $5  -- $5: attempt_url
+    0, -- Initial score
+    $3, -- $3: question_total (total number of questions in the quiz)
+    $4  -- $4: attempt_url
   )
 RETURNING id;

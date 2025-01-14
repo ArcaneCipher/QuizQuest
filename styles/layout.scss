@@ -1,14 +1,19 @@
 // See: https://sass-lang.com/
 
 body,
-html {  
+html {
   margin: 0;
   scroll-behavior: smooth;
 }
+
+body {
+  padding-top: 100px; // Added padding for the header
+}
+
 h1,h2,h3{
   font-weight: 700;
 }
-.btn{ 
+.btn{
   padding: 10px 15px;
   border-radius: 6px;
   font-weight: 500;
@@ -16,23 +21,28 @@ h1,h2,h3{
 }
 .btn-primary {
   background-color: #3cc4c4;
-  border-color: #3cc4c4;    
+  border-color: #3cc4c4;
   &:hover,&:focus,&:active:focus{
       background-color: #32abab;
-      border-color: #3cc4c4;
+      border-color: #32abab;
       box-shadow: none;
+  }
+  &:disabled,&.disabled{
+    background-color: #3cc4c4;
+    border-color: #3cc4c4;
+    opacity: 0.5;
   }
 }
 .btn-secondary{
   background-color: #ffd268;
-  border-color: #ffd268;    
+  border-color: #ffd268;
   color: #2f3146;
   &:hover,&:focus,&:active:focus{
       background-color: #f1c357;
       border-color: #f1c357;
       box-shadow: none;
       color: #2f3146;
-  }  
+  }
 }
 
 .form-control {
@@ -45,5 +55,13 @@ h1,h2,h3{
     border-color: #3cc4c4;
     outline: 0;
     box-shadow: 0 0 0 .25rem rgb(60 196 196 / 25%);
+  }
+}
+
+
+
+@media(max-width:767px){
+  body {
+    padding-top: 70px;
   }
 }

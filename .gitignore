@@ -1,5 +1,17 @@
+# Ignore node modules (generated during npm install)
 node_modules/
+
+# Ignore public styles (output from build process)
 public/styles
+
+# Ignore environment files (contains sensitive information)
 .env
+
+# Ignore log files
 *.log
+
+# Ignore SQLite database files
 *.sqlite3
+
+# Ignore macOS .DS_Store files (metadata files created by Finder)
+.DS_Store

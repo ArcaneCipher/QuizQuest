@@ -5,128 +5,128 @@
  * See: https://expressjs.com/en/guide/using-middleware.html#middleware.router
  */
 
+
+// Katrina - Create Quiz API code
 const express = require('express');
 const router = express.Router();
 const db = require('../db/connection');
 const { loadQuery, generateRandomString } = require('../lib/utils');
 
-// Route to render the "Create Quiz" page
+// Preload SQL queries
+const insertQuizQuery = loadQuery('insert_new_quiz.sql');
+const insertQuestionQuery = loadQuery('insert_question_for_quiz.sql');
+const insertAnswerQuery = loadQuery('insert_answer_for_question.sql');
+const shareQuizQuery = loadQuery('select_share_quizzes_by_url.sql');
+const categoriesQuery = loadQuery('select_homepage_categories.sql'); // Added for dynamic categories
+
+// Route to render the Create Quiz page w/ dynamic categories
 router.get('/new', (req, res) => {
-  res.render('new-quiz-form');
+  // Fetch categories from the database dynamically
+  db.query(categoriesQuery)
+    .then(data => {
+      res.render('new-quiz-form', { categories: data.rows }); // Pass categories to the template
+    })
+    .catch(err => {
+      console.error('Error fetching categories:', err.message);
+      res.status(500).send('Internal server error');
+    });
 });
 
-// Route to create a new quiz
+// Route to Create New quiz
 router.post('/new', async (req, res) => {
-  const {quiz_name, quiz_description, quiz_category, is_public, questions } = req.body;
+  const { quiz_name, quiz_description, quiz_category, is_public, questions } = req.body;
 
   // Validation: Ensure all required fields are filled - no blanks entries!
   if (!quiz_name || !quiz_description || !quiz_category) {
     return res.status(400).json({ error: 'Quiz name, description, and category are required.' });
   }
 
-  if (!questions || questions.length === 0) {
+  if (!questions || Object.keys(questions).length === 0) {
     return res.status(400).json({ error: 'At least one question is required.' });
   }
 
-  for (const question of questions) {
+  for (const questionId in questions) {
+    const question = questions[questionId];
+
+    // Validation for question text
     if (!question.text) {
       return res.status(400).json({ error: 'Each question must have text.' });
     }
 
-    if (!question.answers || question.answers.length === 0) {
+    // Validation for answers
+    if (!question.answers || Object.keys(question.answers).length === 0) {
       return res.status(400).json({ error: 'Each question must have at least one answer.' });
     }
 
-    let hasCorrectAnswer = false;
-    for (const answer of question.answers) {
+    // Validation for one correct answer
+    const correctAnswers = Object.keys(question.answers).filter(
+      (answerId) => answerId === question.correct
+    );
+    if (correctAnswers.length !== 1) {
+      return res.status(400).json({ error: `Question "${question.text}" must have exactly one correct answer.` });
+    }
+
+    for (const answerId in question.answers) {
+      const answer = question.answers[answerId];
       if (!answer.text) {
         return res.status(400).json({ error: 'Answer text cannot be blank.' });
       }
-      if (answer.is_correct) {
-        hasCorrectAnswer = true;
-      }
-    }
-
-    if (!hasCorrectAnswer) {
-      return res.status(400).json({ error: 'Each question must have one correct answer.' });
     }
   }
 
   try {
-    //Public/Private listed quiz - boolean value for checkbox
+    // Public/Private listed quiz - boolean value for checkbox
     const isPublic = !!is_public;
 
     // Generate unique quiz URL
     const quiz_url = await generateRandomString('quizzes', 'quiz_url');
-
-    // Load SQL queries
-    const insertQuizQuery = loadQuery('insert_new_quiz.sql');
-    const insertQuestionQuery = loadQuery('insert_question_for_quiz.sql');
-    const insertAnswerQuery = loadQuery('insert_answer_for_question.sql');
 
     // Insert Quiz
     const quizResult = await db.query(insertQuizQuery, [
       quiz_name,
       quiz_description,
       quiz_category,
-      is_public, // Store public/private status for quiz
-      quiz_url
+      isPublic, // Use the boolean value for public/private status
+      quiz_url,
     ]);
     const quizId = quizResult.rows[0].id; // Getting the inserted quiz ID
 
-    // Dynamically add questions + answer
-        for (const questionId in questions) {
-          const question = questions[questionId];
+    // Dynamically add questions + answers
+    for (const questionId in questions) {
+      const question = questions[questionId];
 
-          // Validate that the question has exactly one correct answer
-      const correctAnswers = Object.keys(question.answers).filter(
-        (answerId) => answerId === question.correct
-      );
-      if (correctAnswers.length !== 1) {
-        return res
-          .status(400)
-          .json({ error: `Question "${question.text}" must have exactly one correct answer.` });
+      // Insert the question into the database
+      const questionResult = await db.query(insertQuestionQuery, [quizId, question.text]);
+      const questionDbId = questionResult.rows[0].id; // Getting the inserted question ID
+
+      // Iterate over the answers and insert into the database
+      for (const answerId in question.answers) {
+        const answer = question.answers[answerId];
+        await db.query(insertAnswerQuery, [
+          questionDbId, // The ID of the question this answer belongs to
+          answer.text, // The text of the answer
+          answerId === question.correct, // Whether this answer is correct
+        ]);
       }
-    
-          // Insert the question into the database
-          const insertQuestionQuery = loadQuery('insert_question_for_quiz.sql');
-          const questionResult = await db.query(insertQuestionQuery, [quizId, question.text]);
-          
-          // Get the inserted question's database ID
-          const questionDbId = questionResult.rows[0].id;
-    
-          // Iterate over the answers object within the current question
-          for (const answerId in question.answers) {
-            const answer = question.answers[answerId];
-    
-            // Insert the answer into the database
-            const insertAnswerQuery = loadQuery('insert_answer_for_question.sql');
-            await db.query(insertAnswerQuery, [
-              questionDbId,
-              answer.text,
-              answerId === question.correct,
-            ]);
-          }
-        }
+    }
 
-    res.status(201).redirect(`/quizzes/${quiz_url}`); //Redirecting to created quiz page
+    res.status(201).redirect(`/quizzes/${quiz_url}`); // Redirecting to created quiz page
   } catch (err) {
     console.error('Error creating quiz:', err.message);
     res.status(500).send('Internal server error');
-   }
-  });
+  }
+});
 
-// javin code for sharing quizzes
+// Javin - Route for sharing quizzes
 router.get('/:quiz_url', (req, res) => {
-  const query = loadQuery('select_share_quizzes_by_url.sql');
   const params = [req.params.quiz_url];
 
-  db.query(query, params)
-    .then(data => {
+  db.query(shareQuizQuery, params)
+    .then((data) => {
       const quiz = data.rows[0];
       res.json({ quiz });
     })
-    .catch(err => {
+    .catch((err) => {
       res.status(500).json({ error: err.message });
     });
 });

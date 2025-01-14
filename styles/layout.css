@@ -4,6 +4,10 @@ html {
   scroll-behavior: smooth;
 }
 
+body {
+  padding-top: 100px;
+}
+
 h1, h2, h3 {
   font-weight: 700;
 }
@@ -21,8 +25,13 @@ h1, h2, h3 {
 }
 .btn-primary:hover, .btn-primary:focus, .btn-primary:active:focus {
   background-color: #32abab;
-  border-color: #3cc4c4;
+  border-color: #32abab;
   box-shadow: none;
+}
+.btn-primary:disabled, .btn-primary.disabled {
+  background-color: #3cc4c4;
+  border-color: #3cc4c4;
+  opacity: 0.5;
 }
 
 .btn-secondary {
@@ -48,4 +57,10 @@ h1, h2, h3 {
   border-color: #3cc4c4;
   outline: 0;
   box-shadow: 0 0 0 0.25rem rgba(60, 196, 196, 0.25);
+}
+
+@media (max-width: 767px) {
+  body {
+    padding-top: 70px;
+  }
 }/*# sourceMappingURL=layout.css.map */

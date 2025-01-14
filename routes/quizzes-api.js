@@ -9,10 +9,26 @@ const express = require('express');
 const router = express.Router();
 const db = require('../db/connection');
 const { loadQuery, generateRandomString } = require('../lib/utils');
+const { getCategories } = require('../db/queries/categories'); // new for categories
 
-// Route to create a new quiz 
+//new for get route for quiz categories
+router.get('/new', (req, res) => {
+  getCategories()
+    .then(categories => {
+      res.render('new-quiz-form', {
+        req, categories
+      });
+    });
+});
+
+// Route to render the "Create Quiz" page
+router.get('/new', (req, res) => {
+  res.render('new-quiz-form', { req }); // pass req object to template
+});
+
+// Route to create a new quiz
 router.post('/new', async (req, res) => {
-  const {quiz_name, quiz_description, quiz_category, is_public, questions } = req.body;
+  const { quiz_name, quiz_description, quiz_category, is_public, questions } = req.body;
 
   // Validation: Ensure all required fields are filled - no blanks entries!
   if (!quiz_name || !quiz_description || !quiz_category) {
@@ -84,8 +100,8 @@ router.post('/new', async (req, res) => {
   } catch (err) {
     console.error('Error creating quiz:', err.message);
     res.status(500).send('Internal server error');
-   }
-  });
+  }
+});
 
 // javin code for sharing quizzes
 router.get('/:quiz_url', (req, res) => {
