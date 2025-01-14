@@ -30,6 +30,7 @@ $(() => {
         const quizItem = $(`
           <a class="quiz" href="quiz/${quiz.quiz_url}">
             <h4>${quiz.title}</h4>
+            &nbsp;
             <button class="share-btn" data-url="${window.location.origin}/quiz/${quiz.quiz_url}">
             <i class="fa fa-share-alt"></i>
             </button>
