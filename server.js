@@ -32,7 +32,7 @@ const usersRoutes = require('./routes/users');
 const userApiRoutes = require('./routes/users-api');
 const categoryApiRoutes = require('./routes/category-api');
 const quizApiRoutes = require('./routes/all-quizzes-api');
-const quizzesApiRoutes = require('./routes/quizzes-api');
+const quizzesApiRoutes = require('./routes/create-quiz-api');
 const quizAttemptApiRoutes = require('./routes/quiz-api');
 const startQuizApiRoutes = require('./routes/start-quiz-api');
 const submitAnswerApiRoutes = require('./routes/submit-answer-api');
@@ -61,7 +61,7 @@ app.use('/quiz', quizRoutes);
 app.use('/api/test-api', testApi);
 // app.use('/api/quizzes', userApiRoutes); // commenting out to amend for sharing quiz @javin
 app.use('/quizzes', quizzesApiRoutes); // trying this to fix the create a quiz button
-app.use('/api/quizzes', quizzesApiRoutes); // amended by Javin
+app.use('/api/quizzes', quizzesApiRoutes);
 app.use('/api/result', resultsApiRoutes);
 app.use('/result', resultsRoutes);
 

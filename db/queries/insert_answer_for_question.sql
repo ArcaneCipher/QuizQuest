@@ -9,5 +9,5 @@ VALUES
   (
     $1, -- $1: question_id (ID of the question)
     $2, -- $2: answer (answer text)
-    3   -- $3: is_correct (boolean)
+    $3   -- $3: is_correct (boolean)
     );
