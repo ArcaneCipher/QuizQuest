@@ -259,6 +259,11 @@ body {
   min-height: 100vh;
   padding: 50px 0;
 }
+.play-quiz #nav-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 .play-quiz #question-tracker {
   position: absolute;
   right: 30px;
@@ -408,6 +413,7 @@ body {
   border-radius: 8px;
   color: #fff;
   margin-bottom: 1rem;
+  padding-right: 40px;
 }
 .results li.correct-answer {
   background: #2dc8a2 url(../img/correct.svg) no-repeat;
@@ -458,6 +464,19 @@ body {
 }
 .primary-link:hover {
   color: #3cc4c4;
+}
+
+.analytics {
+  padding: 50px 0;
+}
+.analytics li {
+  padding: 8px 10px;
+  box-shadow: 0px 1px 51px 0px rgba(1, 1, 1, 0.14);
+  margin-bottom: 10px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 @media (max-width: 1199px) {
@@ -583,6 +602,9 @@ body {
   }
   .results {
     padding: 50px 10px;
+  }
+  .x-auto {
+    overflow-x: auto;
   }
 }
 @media (max-width: 350px) {

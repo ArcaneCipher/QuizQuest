@@ -226,11 +226,14 @@ body {
 .play-quiz{
   min-height: 100vh;
   padding: 50px 0;
+  #nav-buttons{
+    @include flex-center;
+  }
   #question-tracker {
     position: absolute;
     right: 30px;
     bottom: 30px;
-}
+  }
   .quiz-wrapper {
     padding: 40px;
     position: relative;
@@ -372,6 +375,7 @@ body {
     border-radius: 8px;
     color: #fff;
     margin-bottom: 1rem;
+    padding-right: 40px;
     &.correct-answer {
       background: #2dc8a2 url(../img/correct.svg) no-repeat;
       background-size: 24px;
@@ -425,6 +429,18 @@ body {
   }
 }
 
+.analytics{
+  padding: 50px 0;
+  li {
+    padding: 8px 10px;
+    box-shadow: 0px 1px 51px 0px rgb(1 1 1 / 14%);
+    margin-bottom: 10px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
 
 
 
@@ -556,6 +572,9 @@ body {
   }
   .results {
     padding: 50px 10px;
+  }
+  .x-auto{
+    overflow-x: auto;
   }
 }
 

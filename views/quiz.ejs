@@ -25,6 +25,7 @@
   <script src="/vendor/jquery-3.0.0.js"></script>
   <script src="/vendor/bootstrap/bootstrap.bundle.min.js"></script>
   <script defer src="/scripts/quiz-attempt.js"></script>
+  <script defer src="/scripts/alert.js"></script>
 </head>
 
 <body class="scroll-snap">
@@ -42,8 +43,11 @@
           <div class="text-center">
             <h1 class="quiz-title"></h1>
             <p class="quiz-description mb-5"></p>
-            <button type="button" id="startQuiz" class="btn btn-secondary">Let's Get Started</button><br>
-            <a href="/analytics/<%= quiz_url %>" class="btn btn-info mt-3">View Analytics</a>
+            <div class="gap-3 flex-md-row flex-column" id="nav-buttons">
+              <button type="button" id="startQuiz" class="btn btn-secondary">Let's Get Started</button>
+              <a href="/analytics/<%= quiz_url %>" class="btn btn-info">View Analytics</a>
+              <button id="share-btn" class="btn btn-primary">Share Quiz</button>
+            </div>
           </div>
           <div class="quiz-wrapper bg-layout">
             <div id="quiz-container">

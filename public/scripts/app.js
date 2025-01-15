@@ -30,10 +30,6 @@ $(() => {
         const quizItem = $(`
           <a class="quiz" href="quiz/${quiz.quiz_url}">
             <h4>${quiz.title}</h4>
-            &nbsp;
-            <button class="share-btn" data-url="${window.location.origin}/quiz/${quiz.quiz_url}">
-            <i class="fa fa-share-alt"></i>
-            </button>
           </a>
         `);
 
@@ -90,14 +86,6 @@ $(() => {
     $(".search-area").slideToggle();
   });
 
-  // javin share button handler
-
-  $(document).on('click', '.share-btn', function (e) {
-    e.preventDefault();
-    const url = $(this).data('url');
-    navigator.clipboard.writeText(url)
-      .then(() => alert('Quiz URL copied to clipboard!'));
-  });
 
   $('#searchQuiz').on('keydown', (event) => {
     const query = $('#quiz').val();

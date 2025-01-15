@@ -24,26 +24,8 @@
 
   <script src="/vendor/jquery-3.0.0.js"></script>
   <script src="/vendor/bootstrap/bootstrap.bundle.min.js"></script>
+  <script defer src="/scripts/alert.js"></script>
 
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const shareButton = document.getElementById('share-button');
-
-      shareButton.addEventListener('click', () => {
-        // Get the current page URL
-        const url = window.location.href;
-
-        // Copy URL to clipboard
-        navigator.clipboard.writeText(url).then(() => {
-          // Display a confirmation message
-          alert('URL copied to clipboard!');
-        }).catch(err => {
-          console.error('Failed to copy URL: ', err);
-          alert('Failed to copy URL. Please try again.');
-        });
-      });
-    });
-  </script>
 
   <style>
 
@@ -69,7 +51,7 @@
       </div>
       <div class="bg-layout p-md-5 px-3 py-5">
         <div class="row">
-          <div class="col-lg-7">
+          <div class="col-lg-6">
             <h3 class="d-lg-none d-block text-center mb-4"><%= quizResult.quiz_title %></h3>
             <ul class="list-unstyled">
               <% quizResult.answers.forEach(answer => { %>
@@ -87,7 +69,7 @@
               <% }) %>
             </ul>
           </div>
-          <div class="col-lg-5 text-center">
+          <div class="col-lg-6 text-center">
               <h3 class="d-lg-block d-none"><%= quizResult.quiz_title %></h3>
               <div class="pie-chart">
                 <div class="score"><%= quizResult.score %>/<%= quizResult.question_total %></div>
@@ -101,9 +83,11 @@
                   Want to <a href="/quiz/<%= quizResult.quiz_url %>" class="primary-link">Reattempt Quiz</a>?
                 <% } %>
               </p>
-              <a href="/" class="btn btn-secondary mt-4">Back to Quizzes</a><br>
-              <a href="/analytics/<%= quizResult.quiz_url %>" class="btn btn-info mt-4">View Analytics</a><br>
-              <button id="share-button" class="btn btn-primary mt-4">Share Results</button>
+              <div class="d-flex align-items-center justify-content-center flex-md-row flex-column gap-md-3 gap-1 mt-4">
+                <a href="/" class="btn btn-secondary">Back to Quizzes</a><br>
+                <a href="/analytics/<%= quizResult.quiz_url %>" class="btn btn-info">View Analytics</a><br>
+                <button id="share-btn" class="btn btn-primary">Share Results</button>
+              </div>
           </div>
         </div>
       </div>

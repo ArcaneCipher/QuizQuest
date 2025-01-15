@@ -46,6 +46,18 @@ h1, h2, h3 {
   color: #2f3146;
 }
 
+.btn-info {
+  color: #ffffff;
+  background-color: #c8a6f3;
+  border-color: #c8a6f3;
+}
+.btn-info:hover, .btn-info:focus, .btn-info:active:focus {
+  background-color: #ba98e4;
+  border-color: #ba98e4;
+  box-shadow: none;
+  color: #ffffff;
+}
+
 .form-control {
   color: #2f3146;
   border: 1px solid #ddd;

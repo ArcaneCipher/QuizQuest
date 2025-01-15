@@ -46,7 +46,7 @@ $(() => {
               // console.log(response) // response contains result_id and attempt_url
               resultId = response.result_id;
               attemptURL = response.attempt_url
-              $('#startQuiz').hide();
+              $('#nav-buttons').hide();
               $('.quiz-wrapper').show();
               renderQuestion();
             });
