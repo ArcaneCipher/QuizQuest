@@ -24,8 +24,11 @@
 
   <script src="/vendor/jquery-3.0.0.js"></script>
   <script src="/vendor/bootstrap/bootstrap.bundle.min.js"></script>
+  <script defer src="/scripts/alert.js"></script>
+
+
   <style>
-    
+
     :root {
       --score: <%= quizResult.score %>;
       --total: <%= quizResult.question_total %>;
@@ -43,19 +46,19 @@
     <div class="container">
       <div class="row">
         <div class="col-md-12">
-          <h1 class="text-center mb-5">Quiz Results</h1>          
+          <h1 class="text-center mb-5">Quiz Results</h1>
         </div>
       </div>
       <div class="bg-layout p-md-5 px-3 py-5">
         <div class="row">
-          <div class="col-lg-7">
+          <div class="col-lg-6">
             <h3 class="d-lg-none d-block text-center mb-4"><%= quizResult.quiz_title %></h3>
             <ul class="list-unstyled">
               <% quizResult.answers.forEach(answer => { %>
                 <% if (answer.is_correct) { %>
-                <li class="correct-answer"> 
-                <% } else { %>  
-                <li class="wrong-answer"> 
+                <li class="correct-answer">
+                <% } else { %>
+                <li class="wrong-answer">
                 <% } %>
                   <strong>Question:</strong> <%= answer.question_text %><br>
                   <strong>Your Answer:</strong> <%= answer.selected_answer_text %><br>
@@ -66,7 +69,7 @@
               <% }) %>
             </ul>
           </div>
-          <div class="col-lg-5 text-center">
+          <div class="col-lg-6 text-center">
               <h3 class="d-lg-block d-none"><%= quizResult.quiz_title %></h3>
               <div class="pie-chart">
                 <div class="score"><%= quizResult.score %>/<%= quizResult.question_total %></div>
@@ -79,8 +82,12 @@
                 <% if (quizResult.score <= 3) { %>
                   Want to <a href="/quiz/<%= quizResult.quiz_url %>" class="primary-link">Reattempt Quiz</a>?
                 <% } %>
-              </p>  
-              <a href="/" class="btn btn-secondary mt-4">Back to Quizzes</a>
+              </p>
+              <div class="d-flex align-items-center justify-content-center flex-md-row flex-column gap-md-3 gap-1 mt-4">
+                <a href="/" class="btn btn-secondary">Back to Quizzes</a><br>
+                <a href="/analytics/<%= quizResult.quiz_url %>" class="btn btn-info">View Analytics</a><br>
+                <button id="share-btn" class="btn btn-primary">Share Results</button>
+              </div>
           </div>
         </div>
       </div>
