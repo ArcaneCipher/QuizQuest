@@ -6,6 +6,9 @@ $(() => {
     let resultId;
     let attemptURL;
     let totalQuestions = 0;
+    // timer
+    let timerInterval;
+    const QUIZ_TIME = 60;
 
     // fetch quiz data
     $.ajax({
@@ -16,7 +19,7 @@ $(() => {
 
         const quizData = response.quiz[0];
         const questionAnswers = quizData.questions_and_answers;
-        totalQuestions = questionAnswers.length
+        totalQuestions = questionAnswers.length;
         let currentQuestionIndex = 0;
 
         // payload to send to /api/start-quiz
@@ -52,6 +55,59 @@ $(() => {
             });
         });
 
+        // start timer
+        let timeLeft = QUIZ_TIME;
+        $('#countdown').text(timeLeft);
+
+        timerInterval = setInterval(() => {
+          timeLeft--;
+          $('#countdown').text(timeLeft);
+
+          if (timeLeft <= 0) {
+            clearInterval(timerInterval);
+            // get current answer if they're selected
+            const currentQuestion = questionAnswers[currentQuestionIndex];
+            const selectedAnswer = $('input[name="answers"]:checked');
+
+            if (selectedAnswer.length > 0) {
+              // submit last answer, even if none selected
+              const answerPayLoad = {
+                result_id: resultId,
+                question_id: currentQuestion.question_id,
+                selected_answer_id: selectedAnswer.val(),
+                is_correct: currentQuestion.answers.find(a => a.answer_id == selectedAnswer.val()).is_correct
+              };
+
+
+              $.ajax({
+                method: 'POST',
+                url: '/api/submit-answer',
+                data: answerPayLoad,
+              }).always(() => {
+
+                //auto - submit quiz
+                $.ajax({
+                  method: 'POST',
+                  url: '/api/update-score',
+                  data: { result_id: resultId },
+                }).done(() => {
+                  window.location.href = `/result/${attemptURL}`;
+                });
+              });
+            } else {
+              // no answer selected, just update the score and redirect to results
+              $.ajax({
+                method: 'POST',
+                url: '/api/update-score',
+                data: { result_id: resultId }
+              }).done(() => {
+                window.location.href = `/result/${attemptURL}`;
+              });
+            }
+          }
+        }, 1000);
+
+
         // question tracker
 
         const updateQuestionTracker = () => {
@@ -66,7 +122,7 @@ $(() => {
         };
 
         // render a question and its answers.
-        
+
         const renderQuestion = () => {
           const currentQuestion = questionAnswers[currentQuestionIndex];
 
@@ -81,7 +137,7 @@ $(() => {
           answersContainer.empty();
 
           // render answer options
-          
+
           currentQuestion.answers.forEach((answer) => {
             const answerOption = $(`
               <div class="answer-option">
@@ -142,19 +198,19 @@ $(() => {
             })
               .done((response) => {
                 console.log("Score updated", response);
-                  $.ajax({
-                    method: 'GET',
-                    url: `/api/result/${attemptURL}`,
-                  })
-                    .done((response) => {
-                      console.log(response) // response contains result_id and attempt_url
-                      window.location.href = `/result/${attemptURL}`;
+                $.ajax({
+                  method: 'GET',
+                  url: `/api/result/${attemptURL}`,
+                })
+                  .done((response) => {
+                    console.log(response) // response contains result_id and attempt_url
+                    window.location.href = `/result/${attemptURL}`;
 
-                        // Update the achieved score dynamically
-                        const achievedScore = 4; // Example: Change this value as needed
-                        document.documentElement.style.setProperty('--achieved', achievedScore);
-                    });
-                });
+                    // Update the achieved score dynamically
+                    const achievedScore = 4; // Example: Change this value as needed
+                    document.documentElement.style.setProperty('--achieved', achievedScore);
+                  });
+              });
             nextQuestion.remove(); // remove the next button
           }
         };

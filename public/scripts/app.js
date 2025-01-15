@@ -26,7 +26,7 @@ $(() => {
         const quiz = quizzes[j];
 
         // create each quiz
-        // updated by Javin for quiz sharing button
+        // updated by Javin for quiz sharing button, added space between quiz title and button 123
         const quizItem = $(`
           <a class="quiz" href="quiz/${quiz.quiz_url}">
             <h4>${quiz.title}</h4>
