@@ -5,26 +5,36 @@ $(document).ready(function () {
   $(document).on("click", "#addAnswer", function () {
     console.log("Adding a new answer!");
 
-    const answersContainer = $(this).closest('.question-block').find('.answers-container');
+    const questionBlock = $(this).closest(".question-block");
+    const answersContainer = questionBlock.find(".answers-container");
+    const correctDropdown = questionBlock.find(".correct-answer-dropdown");
 
     // Get the current question index
-    const questionIndex = $(this).closest('.question-block').data('question-id') || 0;
+    const questionIndex = questionBlock.data("question-id");
 
-    // Get the current answer count
-    const answerIndex = answersContainer.children().length;
+    // Get the current answer count (all answer items, including the initial one)
+    const answerIndex = answersContainer.find("input[type='text']").length;
 
     // Create a new answer input dynamically
     const newAnswer = `
       <div class="answer-item">
-        <label>Answer:</label>
-        <input type="text" name="questions[${questionIndex}][answers][${answerIndex}][text]" placeholder="Enter an answer" class="form-control mb-2" required />
-        <input type="radio" name="questions[${questionIndex}][correct]" value="${answerIndex}" required />
-        <small>Mark as correct</small>
+        <input type="text" name="questions[${questionIndex}][answers][${answerIndex}][text]" placeholder="Enter an answer" class="form-control mb-2" required>
       </div>
     `;
 
     // Append the new answer to the container
     answersContainer.append(newAnswer);
+
+    // Clear and repopulate the correct answer dropdown
+    correctDropdown.empty(); // Clear existing options
+    correctDropdown.append('<option value="" disabled selected>Select the correct answer</option>'); // Add default option
+
+    // Populate the dropdown with updated options
+    answersContainer.find("input[type='text']").each(function (index) {
+      const optionText = `Answer ${index + 1}`;
+      const newOption = `<option value="${index}">${optionText}</option>`;
+      correctDropdown.append(newOption);
+    });
   });
 
   // Dynamically created "Add Question" button
@@ -38,16 +48,21 @@ $(document).ready(function () {
     const newQuestion = `
       <div class="question-block" data-question-id="${questionCounter}">
         <label>Question:</label>
-        <input type="text" name="questions[${questionCounter}][text]" placeholder="Enter the question" class="form-control mb-2" required />
+        <input type="text" name="questions[${questionCounter}][text]" placeholder="Enter the question" class="form-control mb-2" required>
 
         <div class="answers-container">
-          <label>Answer:</label>
-          <input type="text" name="questions[${questionCounter}][answers][0][text]" placeholder="Enter an answer" class="form-control mb-2" required />
-          <input type="radio" name="questions[${questionCounter}][correct]" value="0" required />
-          <small>Mark as correct</small>
+          <input type="text" name="questions[${questionCounter}][answers][0][text]" placeholder="Enter an answer" class="form-control mb-2" required>
         </div>
 
-        <button type="button" id="addAnswer" class="btn btn-secondary btn-sm add-answer mt-2">Add Answer</button>
+        <button type="button" id="addAnswer" class="btn btn-secondary btn-sm mt-2">Add Answer</button>
+
+        <div class="correct-answer-container mt-3">
+          <label for="questions[${questionCounter}][correct]">Correct Answer:</label>
+          <select name="questions[${questionCounter}][correct]" class="form-control correct-answer-dropdown" required>
+            <option value="" disabled selected>Select the correct answer</option>
+            <option value="0">Answer 1</option>
+          </select>
+        </div>
       </div>
     `;
 
@@ -55,4 +70,3 @@ $(document).ready(function () {
     $("#questions-container").append(newQuestion);
   });
 });
-

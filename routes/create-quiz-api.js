@@ -1,138 +1,124 @@
-/**
- * All routes for Quizzes Data are defined here
- * Since this file is loaded in server.js into api/quizzes,
- *   these routes are mounted onto /api/quizzes
- * See: https://expressjs.com/en/guide/using-middleware.html#middleware.router
- */
-
-
-// Katrina - Create Quiz API code
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const db = require('../db/connection');
-const { loadQuery, generateRandomString } = require('../lib/utils');
+const db = require("../db/connection");
+const { loadQuery, generateRandomString } = require("../lib/utils");
 
 // Preload SQL queries
-const insertQuizQuery = loadQuery('insert_new_quiz.sql');
-const insertQuestionQuery = loadQuery('insert_question_for_quiz.sql');
-const insertAnswerQuery = loadQuery('insert_answer_for_question.sql');
-const shareQuizQuery = loadQuery('select_share_quizzes_by_url.sql');
-const categoriesQuery = loadQuery('select_homepage_categories.sql'); // Added for dynamic categories
+const insertQuizQuery = loadQuery("insert_new_quiz.sql");
+const insertQuestionQuery = loadQuery("insert_question_for_quiz.sql");
+const insertAnswerQuery = loadQuery("insert_answer_for_question.sql");
+const categoriesQuery = loadQuery("select_all_categories_enum.sql"); // use all categories from the enum
+const shareQuizQuery = loadQuery("select_share_quizzes_by_url.sql");
 
-// Route to render the Create Quiz page w/ dynamic categories
-router.get('/new', (req, res) => {
-  // Fetch categories from the database dynamically
-  db.query(categoriesQuery)
-    .then(data => {
-      res.render('new-quiz-form', { categories: data.rows }); // Pass categories to the template
-    })
-    .catch(err => {
-      console.error('Error fetching categories:', err.message);
-      res.status(500).send('Internal server error');
-    });
+// Route: Render the Create Quiz page
+router.get("/new", async (req, res) => {
+  try {
+    const data = await db.query(categoriesQuery);
+    res.render("new-quiz-form", { req, categories: data.rows });
+  } catch (err) {
+    console.error("Error fetching categories:", err.message);
+    res.status(500).send("Internal server error");
+  }
 });
 
-// Route to Create New quiz
-router.post('/new', async (req, res) => {
-  const { quiz_name, quiz_description, quiz_category, is_public, questions } = req.body;
+// Route: Handle quiz creation
+router.post("/new", async (req, res) => {
+  console.log("Received form data:", JSON.stringify(req.body, null, 2));
 
-  // Validation: Ensure all required fields are filled - no blanks entries!
+  const creator_id = req.user ? req.user.id : 1; // Default to user ID 1 for testing
+  const { quiz_name, quiz_description, quiz_category, is_public, questions } =
+    req.body;
+
+  // Validate the main quiz data
   if (!quiz_name || !quiz_description || !quiz_category) {
-    return res.status(400).json({ error: 'Quiz name, description, and category are required.' });
+    return res
+      .status(400)
+      .json({ error: "Quiz name, description, and category are required." });
   }
 
-  if (!questions || Object.keys(questions).length === 0) {
-    return res.status(400).json({ error: 'At least one question is required.' });
+  if (!questions || typeof questions !== "object" || Object.keys(questions).length === 0) {
+    return res.status(400).json({ error: "At least one question is required." });
   }
 
   for (const questionId in questions) {
     const question = questions[questionId];
-
-    // Validation for question text
-    if (!question.text) {
-      return res.status(400).json({ error: 'Each question must have text.' });
+    if (!question.text || typeof question.text !== "string") {
+      return res.status(400).json({ error: `Question ${questionId} must have text.` });
     }
 
-    // Validation for answers
-    if (!question.answers || Object.keys(question.answers).length === 0) {
-      return res.status(400).json({ error: 'Each question must have at least one answer.' });
+    if (!question.answers || typeof question.answers !== "object" || Object.keys(question.answers).length === 0) {
+      return res.status(400).json({ error: `Question "${question.text}" must have at least one answer.` });
     }
 
-    // Validation for one correct answer
-    const correctAnswers = Object.keys(question.answers).filter(
-      (answerId) => question.answers[answerId].correct === true
-    );
-
-    if (correctAnswers.length !== 1) {
-      return res.status(400).json({
-        error: `Question "${question.text}" must have exactly one correct answer.`,
-      });
+    if (!question.correct || !question.answers[question.correct]) {
+      return res.status(400).json({ error: `Question "${question.text}" must have a valid correct answer.` });
     }
 
-    // Continue iterating over answers if everything is valid
     for (const answerId in question.answers) {
       const answer = question.answers[answerId];
-      if (!answer.text) {
-        return res.status(400).json({ error: "Answer text cannot be blank." });
+      if (!answer.text || typeof answer.text !== "string") {
+        return res.status(400).json({ error: `Answer ${answerId} for question "${question.text}" cannot be blank.` });
       }
     }
   }
 
   try {
-    // Public/Private listed quiz - boolean value for checkbox
-    const isPublic = !!is_public;
+    // Generate a unique URL for the quiz
+    const quiz_url = await generateRandomString("quizzes", "quiz_url");
 
-    // Generate unique quiz URL
-    const quiz_url = await generateRandomString('quizzes', 'quiz_url');
-
-    // Insert Quiz
+    // Insert the quiz
     const quizResult = await db.query(insertQuizQuery, [
+      creator_id,
       quiz_name,
       quiz_description,
-      quiz_category,
-      isPublic, // Use the boolean value for public/private status
+      !!is_public, // Ensure boolean for is_public
       quiz_url,
+      quiz_category,
     ]);
-    const quizId = quizResult.rows[0].id; // Getting the inserted quiz ID
+    const quizId = quizResult.rows[0].id;
 
-    // Dynamically add questions + answers
+    // Process each question
     for (const questionId in questions) {
       const question = questions[questionId];
 
-      // Insert the question into the database
-      const questionResult = await db.query(insertQuestionQuery, [quizId, question.text]);
-      const questionDbId = questionResult.rows[0].id; // Getting the inserted question ID
+      // Insert the question
+      const questionResult = await db.query(insertQuestionQuery, [
+        quizId,
+        question.text,
+      ]);
+      const questionDbId = questionResult.rows[0].id;
 
-      // Iterate over the answers and insert into the database
+      // Insert answers
       for (const answerId in question.answers) {
         const answer = question.answers[answerId];
         await db.query(insertAnswerQuery, [
-          questionDbId, // The ID of the question this answer belongs to
-          answer.text, // The text of the answer
-          answerId === question.correct, // Whether this answer is correct
+          questionDbId,
+          answer.text,
+          parseInt(answerId) === parseInt(question.correct),
         ]);
       }
     }
 
-    res.status(201).redirect(`/quizzes/${quiz_url}`); // Redirecting to created quiz page
+    res.status(201).redirect(`/quiz/${quiz_url}`);
   } catch (err) {
-    console.error('Error creating quiz:', err.message);
-    res.status(500).send('Internal server error');
+    console.error("Error creating quiz:", err.stack);
+    res.status(500).json({ error: "Internal server error" });
   }
 });
 
-// Javin - Route for sharing quizzes
-router.get('/:quiz_url', (req, res) => {
-  const params = [req.params.quiz_url];
-
-  db.query(shareQuizQuery, params)
-    .then((data) => {
-      const quiz = data.rows[0];
-      res.json({ quiz });
-    })
-    .catch((err) => {
-      res.status(500).json({ error: err.message });
-    });
+// Route: Share quiz by URL
+router.get("/:quiz_url", async (req, res) => {
+  try {
+    const params = [req.params.quiz_url];
+    const data = await db.query(shareQuizQuery, params);
+    if (data.rows.length === 0) {
+      return res.status(404).json({ error: "Quiz not found" });
+    }
+    res.json({ quiz: data.rows[0] });
+  } catch (err) {
+    console.error("Error fetching quiz:", err.message);
+    res.status(500).json({ error: "Internal server error" });
+  }
 });
 
 module.exports = router;
