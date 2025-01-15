@@ -25,6 +25,7 @@
 
   <script src="/vendor/jquery-3.0.0.js"></script>
   <script src="/vendor/bootstrap/bootstrap.bundle.min.js"></script>
+  <script type="text/javascript" src="/scripts/creating-new-quiz.js"></script>
 </head>
 
 <body class="scroll-snap">
@@ -69,6 +70,7 @@
             <label>Question:</label>
             <input type="text" name="questions[0][text]" placeholder="Enter the question" class="form-control mb-2" required>
 
+            <!-- Answers -->
             <div class="answers-container">
               <label>Answer:</label>
               <input type="text" name="questions[0][answers][0][text]" placeholder="Enter an answer" class="form-control mb-2" required>
@@ -76,7 +78,8 @@
               <small>Mark as correct</small>
             </div>
 
-            <button type="button" class="btn btn-secondary btn-sm add-answer mt-2">Add Answer</button>
+            <!-- Buttons -->
+            <button type="button" id="addAnswer" class="btn btn-secondary btn-sm add-answer mt-2">Add Answer</button>
           </div>
         </div>
 
@@ -85,94 +88,6 @@
       </form>
     </div>
   </div>
-
-  <!-- JS for dynamic behaviour -->
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const questionsContainer = document.getElementById('questions-container');
-      const addQuestionButton = document.getElementById('add-question');
-      let questionCounter = 0;
-
-      // Add new question block
-      addQuestionButton.addEventListener('click', () => {
-        questionCounter++;
-
-        const questionDiv = document.createElement('div');
-        questionDiv.classList.add('question-block');
-        questionDiv.dataset.questionId = questionCounter;
-
-        questionDiv.innerHTML = `
-          <label>Question:</label>
-          <input
-            type="text"
-            name="questions[${questionCounter}][text]"
-            placeholder="Enter the question"
-            class="form-control mb-2"
-            required
-          />
-
-          <div class="answers-container">
-            <label>Answer:</label>
-            <input
-              type="text"
-              name="questions[${questionCounter}][answers][0][text]"
-              placeholder="Enter an answer"
-              class="form-control mb-2"
-              required
-            />
-            <input
-              type="radio"
-              name="questions[${questionCounter}][correct]"
-              value="0"
-              required
-            />
-            <small>Mark as correct</small>
-          </div>
-
-          <button type="button" class="btn btn-secondary btn-sm add-answer mt-2" data-question-id="${questionCounter}">
-            Add Answer
-          </button>
-        `;
-
-        questionsContainer.appendChild(questionDiv);
-
-        const addAnswerButton = questionDiv.querySelector('.add-answer');
-        addAnswerButton.addEventListener('click', () => {
-          addAnswer(questionCounter);
-        });
-      });
-
-      // Add new answer to the specific question
-      const addAnswer = (questionId) => {
-        const answersContainer = document.querySelector(
-          `.question-block[data-question-id="${questionId}"] .answers-container`
-        );
-        const answerCount = answersContainer.querySelectorAll('input[type="text"]').length;
-
-        const answerDiv = document.createElement('div');
-        answerDiv.classList.add('answer');
-
-        answerDiv.innerHTML = `
-          <label>Answer:</label>
-          <input
-            type="text"
-            name="questions[${questionId}][answers][${answerCount}][text]"
-            placeholder="Enter an answer"
-            class="form-control mb-2"
-            required
-          />
-          <input
-            type="radio"
-            name="questions[${questionId}][correct]"
-            value="${answerCount}"
-            required
-          />
-          <small>Mark as correct</small>
-        `;
-
-        answersContainer.appendChild(answerDiv);
-      };
-    });
-  </script>
 </body>
+</html>
 </html>

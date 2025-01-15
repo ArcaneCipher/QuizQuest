@@ -60,16 +60,20 @@ router.post('/new', async (req, res) => {
 
     // Validation for one correct answer
     const correctAnswers = Object.keys(question.answers).filter(
-      (answerId) => answerId === question.correct
+      (answerId) => question.answers[answerId].correct === true
     );
+
     if (correctAnswers.length !== 1) {
-      return res.status(400).json({ error: `Question "${question.text}" must have exactly one correct answer.` });
+      return res.status(400).json({
+        error: `Question "${question.text}" must have exactly one correct answer.`,
+      });
     }
 
+    // Continue iterating over answers if everything is valid
     for (const answerId in question.answers) {
       const answer = question.answers[answerId];
       if (!answer.text) {
-        return res.status(400).json({ error: 'Answer text cannot be blank.' });
+        return res.status(400).json({ error: "Answer text cannot be blank." });
       }
     }
   }
