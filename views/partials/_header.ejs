@@ -6,13 +6,19 @@
         <% if (req.originalUrl === '/') { %>
         <a class="nav-item nav-link search-quiz"><i class="fa-solid fa-magnifying-glass"></i></a>
         <%}%>
-        <a class="nav-item btn btn-primary me-md-3 ms-md-2 mx-1" href="/quizzes/new">Create a Quiz</a><!--fixed routing for create a quiz-->
 
         <!-- Dynamic Header Buttons -->
         <% if (req.session && req.session.userId) { %>
+          <span class="nav-item me-md-3 ms-md-2 mx-1">Hello, <%= req.session.userName %>!</span>
           <form action="/logout" method="POST" style="display: inline;">
             <button type="submit" class="nav-item btn btn-secondary mx-1">Logout</button>
           </form>
+          <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav">
+              <a class="nav-item nav-link" href="#">My Quizzes</a>
+            </div>
+          </div>
+          <a class="nav-item btn btn-primary me-md-3 ms-md-2 mx-1" href="/quizzes/new">Create a Quiz</a><!--fixed routing for create a quiz-->
         <% } else { %>
           <a class="nav-item btn btn-secondary mx-1" href="/login">Login</a>
           <a class="nav-item btn btn-info mx-1" href="/signup">Signup</a>
@@ -29,11 +35,7 @@
       >
         <span class="fa fa-user"></span>
       </button>
-        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-          <div class="navbar-nav">
-            <a class="nav-item nav-link" href="#">My Quizzes</a>
-          </div>
-        </div>
+
       </div>
     </div>
   </nav>
