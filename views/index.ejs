@@ -97,13 +97,18 @@
         <div class="row mt-5">
           <div class="col-md-12">
             <h2 class="mb-4">Select a Category</h2>
-            <div id="categories"></div>
+            <div id="categories" class="d-flex flex-wrap gap-3">
+              <% categories.forEach(category => { %>
+                <a href="/quizzes?category=<%= category.category %>" class="btn btn-primary category">
+                  <%= category.category %>
+                </a>
+              <% }); %>
+            </div>
             <p class="d-md-none d-block text-muted text-center mt-4">
               Swipe left for more Categories
             </p>
           </div>
         </div>
-      </div>
     </section>
 
     <!-- quizzes -->
@@ -112,7 +117,26 @@
       <div class="container">
         <div class="row">
           <div class="col-md-12">
-            <div id="quizzes"></div>
+            <% if (categories.length > 0) { %>
+              <% categories.forEach(category => { %>
+                <div class="quizzes-group">
+                  <h3 class="category-title"><%= category.category %></h3>
+                  <div class="quiz-list">
+                    <% if (category.quizzes && category.quizzes.length > 0) { %>
+                      <% category.quizzes.forEach(quiz => { %>
+                        <a href="/quiz/<%= quiz.quiz_url %>" class="btn btn-outline-primary">
+                          <h4><%= quiz.title %></h4>
+                        </a>
+                      <% }); %>
+                    <% } else { %>
+                      <p class="text-muted">No quizzes available in this category.</p>
+                    <% } %>
+                  </div>
+                </div>
+              <% }); %>
+            <% } else { %>
+              <p class="text-center text-muted">No categories or quizzes found.</p>
+            <% } %>
           </div>
         </div>
       </div>
