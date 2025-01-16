@@ -11,7 +11,7 @@ const db = require('../db/connection');
 const { loadQuery } = require('../lib/utils');
 
 router.get('/', (req, res) => {
-  const query = loadQuery('select_homepage_categories.sql');
+  const query = loadQuery('select_all_categories_enum.sql');
   db.query(query)
     .then(data => {
       const quizzes = data.rows;
