@@ -6,6 +6,8 @@ const sassMiddleware = require('./lib/sass-middleware');
 const express = require('express');
 const morgan = require('morgan');
 const cookieSession = require('cookie-session');
+const { loadQuery } = require('./lib/utils');
+const db = require('./db/connection');
 
 const PORT = process.env.PORT || 8080;
 const app = express();
@@ -82,8 +84,24 @@ app.use('/', authRoutes); //login/signup route
 // Warning: avoid creating more routes in this file!
 // Separate them into separate routes files (see above).
 
-app.get('/', (req, res) => {
-  res.render('index', { req });
+app.get('/', async (req, res) => {
+  try {
+    const query = loadQuery('select_homepage_quizzes.sql');
+    const { rows } = await db.query(query);
+
+    const categories = rows
+      .map(row => ({
+        category: row.category,
+        quizzes: (row.quizzes || [])
+          .filter(quiz => quiz.title !== null && quiz.quiz_url !== null), // Filter out invalid quizzes
+      }))
+      .filter(category => category.quizzes.length > 0); // Remove categories with no valid quizzes
+
+    res.render('index', { req, categories });
+  } catch (err) {
+    console.error('Error fetching homepage data:', err.message);
+    res.status(500).send('Internal server error');
+  }
 });
 
 app.listen(PORT, () => {
