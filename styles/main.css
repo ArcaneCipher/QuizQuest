@@ -479,6 +479,45 @@ body {
   justify-content: space-between;
 }
 
+.create-quiz label {
+  margin-bottom: 6px;
+  font-weight: 500;
+}
+.create-quiz .form-check-input {
+  display: none;
+}
+.create-quiz .form-check-input + label {
+  width: 50px;
+  height: 30px;
+  background: #2f3146;
+  border-radius: 30px;
+  position: relative;
+  margin-bottom: 0;
+  order: 1;
+  margin-left: 10px;
+  margin-right: 10px;
+  transition: all 0.3s linear;
+}
+.create-quiz .form-check-input + label::before {
+  content: "";
+  width: 24px;
+  height: 24px;
+  background: #ffd268;
+  border-radius: 50%;
+  position: absolute;
+  right: 3px;
+  left: auto;
+  top: 3px;
+  transition: all 0.3s linear;
+}
+.create-quiz .form-check-input:checked + label {
+  background: #3cc4c4;
+}
+.create-quiz .form-check-input:checked + label::before {
+  background: #ffd268;
+  transform: translateX(-20px);
+}
+
 @media (max-width: 1199px) {
   #categories .category {
     width: 173px;
