@@ -5,6 +5,9 @@ require('dotenv').config();
 const sassMiddleware = require('./lib/sass-middleware');
 const express = require('express');
 const morgan = require('morgan');
+const cookieSession = require('cookie-session');
+const { loadQuery } = require('./lib/utils');
+const db = require('./db/connection');
 
 const PORT = process.env.PORT || 8080;
 const app = express();
@@ -25,6 +28,14 @@ app.use(
   })
 );
 app.use(express.static('public'));
+app.use(express.json()); // Middleware to parse JSON
+app.use(
+  cookieSession({
+    name: 'session',
+    keys: [process.env.SESSION_SECRET || 'default_secret_key'], // Replace with a secure key
+    maxAge: 24 * 60 * 60 * 1000, // 24 hours
+  })
+);
 
 // Separated Routes for each Resource
 // Note: Feel free to replace the example routes below with your own
@@ -37,13 +48,13 @@ const quizAttemptApiRoutes = require('./routes/quiz-api');
 const startQuizApiRoutes = require('./routes/start-quiz-api');
 const submitAnswerApiRoutes = require('./routes/submit-answer-api');
 const updateScoreApiRoutes = require('./routes/update-score-api');
-
 const quizRoutes = require('./routes/quiz');
 const testApi = require('./routes/test-api');
 const searchApiRoutes = require('./routes/search-quiz-api');
 const resultsApiRoutes = require('./routes/results-api');
 const resultsRoutes = require('./routes/results');
 const analyticsRoutes = require('./routes/quiz-analytics');
+const authRoutes = require('./routes/authRoutes');
 
 // Mount all resource routes
 // Note: Feel free to replace the example routes below with your own
@@ -60,12 +71,12 @@ app.use('/api/submit-answer', submitAnswerApiRoutes);
 app.use('/api/update-score', updateScoreApiRoutes);
 app.use('/quiz', quizRoutes);
 app.use('/api/test-api', testApi);
-// app.use('/api/quizzes', userApiRoutes); // commenting out to amend for sharing quiz @javin
 app.use('/quizzes', quizzesApiRoutes); // trying this to fix the create a quiz button
 app.use('/api/quizzes', quizzesApiRoutes);
 app.use('/api/result', resultsApiRoutes);
 app.use('/result', resultsRoutes);
 app.use('/analytics', analyticsRoutes);
+app.use('/', authRoutes); //login/signup route
 
 // Note: mount other resources here, using the same pattern above
 
@@ -73,8 +84,24 @@ app.use('/analytics', analyticsRoutes);
 // Warning: avoid creating more routes in this file!
 // Separate them into separate routes files (see above).
 
-app.get('/', (req, res) => {
-  res.render('index', { req });
+app.get('/', async (req, res) => {
+  try {
+    const query = loadQuery('select_homepage_quizzes.sql');
+    const { rows } = await db.query(query);
+
+    const categories = rows
+      .map(row => ({
+        category: row.category,
+        quizzes: (row.quizzes || [])
+          .filter(quiz => quiz.title !== null && quiz.quiz_url !== null), // Filter out invalid quizzes
+      }))
+      .filter(category => category.quizzes.length > 0); // Remove categories with no valid quizzes
+
+    res.render('index', { req, categories });
+  } catch (err) {
+    console.error('Error fetching homepage data:', err.message);
+    res.status(500).send('Internal server error');
+  }
 });
 
 app.listen(PORT, () => {

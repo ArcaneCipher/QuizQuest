@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const db = require("../db/connection");
-const { loadQuery, generateRandomString } = require("../lib/utils");
+const { loadQuery, generateRandomString, requireLogin } = require("../lib/utils");
 
 // Preload SQL queries
 const insertQuizQuery = loadQuery("insert_new_quiz.sql");
@@ -11,7 +11,7 @@ const categoriesQuery = loadQuery("select_all_categories_enum.sql"); // use all 
 const shareQuizQuery = loadQuery("select_share_quizzes_by_url.sql");
 
 // Route: Render the Create Quiz page
-router.get("/new", async (req, res) => {
+router.get("/new", requireLogin, async (req, res) => {
   try {
     const data = await db.query(categoriesQuery);
     res.render("new-quiz-form", { req, categories: data.rows });
@@ -23,9 +23,10 @@ router.get("/new", async (req, res) => {
 
 // Route: Handle quiz creation
 router.post("/new", async (req, res) => {
-  console.log("Received form data:", JSON.stringify(req.body, null, 2));
-
-  const creator_id = req.user ? req.user.id : 1; // Default to user ID 1 for testing
+  const creator_id = req.session?.userId;
+  if (!creator_id) {
+    return res.status(401).json({ error: "You must be logged in to create a quiz." });
+  }
   const { quiz_name, quiz_description, quiz_category, is_public, questions } =
     req.body;
 

@@ -10,19 +10,27 @@ const router  = express.Router();
 const db = require('../db/connection');
 const { loadQuery } = require('../lib/utils');
 
-router.get('/', (req, res) => {
-  const query = loadQuery('select_homepage_quizzes.sql');
+router.get('/', async (req, res) => {
+  try {
+    // Ensure query is defined before the try block
+    const query = loadQuery('select_homepage_quizzes.sql');
+    const { rows } = await db.query(query);
 
-  db.query(query)
-    .then(data => {
-      const quizzes = data.rows;
-      res.json({ quizzes });
-    })
-    .catch(err => {
-      res
-        .status(500)
-        .json({ error: err.message });
+    const categories = rows.map(row => ({
+      category: row.category,
+      quizzes: row.quizzes || [], // Ensure empty array for categories with no quizzes
+    }));
+
+    res.json({ categories });
+  } catch (err) {
+    console.error('Error fetching homepage quizzes:', {
+      message: err.message,
+      stack: err.stack,
+      // Log the query only if it exists to avoid undefined reference
+      query: typeof query !== 'undefined' ? query : 'Query not defined',
     });
+    res.status(500).json({ error: 'Internal server error' });
+  }
 });
 
 module.exports = router;

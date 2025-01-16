@@ -11,21 +11,26 @@ const db = require('../db/connection');
 const { loadQuery, generateRandomString } = require('../lib/utils');
 
 router.post('/', async (req, res) => {
-  const {user_id, quiz_id, question_total} = req.body;
-  // generate unique URL
-  const attempt_url = await generateRandomString('results','attempt_url'); 
-  const queryString = loadQuery('insert_quiz_attempt.sql');
+  try {
+    const user_id = req.session?.userId; // Retrieve user ID from session
+    const { quiz_id, question_total } = req.body;
 
-  db.query(queryString,[user_id, quiz_id, question_total, attempt_url])
-    .then(data => {
-      const result_id = data.rows[0].id;
-      res.json({ result_id, attempt_url });
-    })
-    .catch(err => {
-      res
-        .status(500)
-        .json({ error: err.message });
-    });
+    if (!user_id) {
+      return res.status(401).json({ error: 'Unauthorized: User not logged in.' });
+    }
+
+    // Generate unique URL for the quiz attempt
+    const attempt_url = await generateRandomString('results', 'attempt_url');
+    const queryString = loadQuery('insert_quiz_attempt.sql');
+
+    const { rows } = await db.query(queryString, [user_id, quiz_id, question_total, attempt_url]);
+
+    const result_id = rows[0].id;
+    res.json({ result_id, attempt_url });
+  } catch (err) {
+    console.error('Error starting quiz attempt:', err.message);
+    res.status(500).json({ error: 'Internal server error' });
+  }
 });
 
 module.exports = router;

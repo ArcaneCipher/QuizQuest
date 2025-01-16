@@ -150,3 +150,38 @@ $(() => {
     });
   });
 });
+
+document.addEventListener('DOMContentLoaded', () => {
+  const createQuizButton = document.getElementById('create-quiz-button');
+  const loginAlert = document.getElementById('login-alert');
+
+  if (createQuizButton) {
+    createQuizButton.addEventListener('click', async (event) => {
+      event.preventDefault(); // Prevent default link behavior
+
+      try {
+        const response = await fetch('/quizzes/new', {
+          method: 'GET',
+          headers: {
+            'Accept': 'application/json',
+          },
+        });
+
+        if (response.status === 401) {
+          // Show the alert
+          loginAlert.style.display = 'block';
+
+          // Hide the alert after 3 seconds
+          setTimeout(() => {
+            loginAlert.style.display = 'none';
+          }, 3000);
+        } else {
+          // Redirect to the Create Quiz page if authorized
+          window.location.href = '/quizzes/new';
+        }
+      } catch (err) {
+        console.error('Error checking login status:', err);
+      }
+    });
+  }
+});
