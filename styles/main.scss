@@ -397,7 +397,7 @@ body {
   width: 150px;
   height: 150px;
   background: conic-gradient(
-    #2dc8a2 calc(var(--percentage) * 1%), 
+    #2dc8a2 calc(var(--percentage) * 1%),
     #e74575 calc(var(--percentage) * 1%)
   );
   border-radius: 50%;
@@ -590,3 +590,14 @@ body {
   }
 }
 
+.hero {
+  padding: 100px 0;
+  .bg-layout {
+    max-width: 500px;
+    margin: 0 auto;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  form .btn {
+    margin-top: 10px;
+  }
+}

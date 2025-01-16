@@ -13,8 +13,14 @@ const { loadQuery } = require('../lib/utils');
 
 // route for rendering the signup page
 router.get('/signup', (req, res) => {
-  res.render('signup'); // Assumes `views/signup.ejs` exists
+  res.render('signup', { req }); // Assumes `views/signup.ejs` exists
 });
+
+// GET Route for the Login Page
+router.get('/login', (req, res) => {
+  res.render('login', { req });
+});
+
 
 // Signup Route
 router.post('/signup', async (req, res) => {
@@ -46,6 +52,49 @@ router.post('/signup', async (req, res) => {
     console.error('Error during signup:', err);
     res.status(500).json({ error: 'Internal server error.' });
   }
+});
+
+// This route will handle user login by verifying the email and password, then setting a session.
+router.post('/login', async (req, res) => {
+  console.log('Request Body:', req.body); // Debugging
+  const { email, password } = req.body;
+
+  if (!email || !password) {
+    return res.status(400).json({ error: 'Both email and password are required.' });
+  }
+
+  try {
+    // Check if the user exists
+    const userQuery = loadQuery('select_existing_user_by_email.sql');
+    const userResult = await db.query(userQuery, [email]);
+
+    if (userResult.rowCount === 0) {
+      return res.status(400).json({ error: 'Invalid email or password.' });
+    }
+
+    const user = userResult.rows[0];
+
+    // Compare the password
+    const passwordMatch = await bcrypt.compare(password, user.password);
+
+    if (!passwordMatch) {
+      return res.status(400).json({ error: 'Invalid email or password.' });
+    }
+
+    // Save the user ID in the session
+    req.session.userId = user.id;
+
+    // Redirect to the homepage after successful login
+    res.redirect('/');
+  } catch (err) {
+    console.error('Error during login:', err);
+    res.status(500).json({ error: 'Internal server error.' });
+  }
+});
+
+router.post('/logout', (req, res) => {
+  req.session = null; // Clear session
+  res.redirect('/'); // Redirect to homepage
 });
 
 module.exports = router;
