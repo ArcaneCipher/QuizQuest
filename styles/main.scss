@@ -480,6 +480,49 @@ body {
 }
 
 
+.create-quiz {
+  label {
+    margin-bottom: 6px;
+    font-weight: 500;
+  }
+  .form-check-input {
+    display: none;
+    + label {
+      width: 50px;
+      height: 30px;
+      background: #2f3146;
+      border-radius: 30px;
+      position: relative;
+      margin-bottom: 0;
+      order: 1;
+      margin-left: 10px;
+      margin-right: 10px;
+      transition: all 0.3s linear;
+      &::before {
+        content: '';
+        width: 24px;
+        height: 24px;
+        background: #ffd268;
+        border-radius: 50%;
+        position: absolute;
+        right: 3px;
+        left: auto;
+        top: 3px;
+        transition: all 0.3s linear;
+      }
+    }
+    &:checked {
+      + label {
+        background: #3cc4c4;
+        &::before {
+          background: #ffd268;
+          transform: translateX(-20px);
+        }
+      }
+    }
+  }
+}
+
 
 
 // media queries

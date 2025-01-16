@@ -47,18 +47,20 @@ $(document).ready(function () {
     // Create a new question block dynamically
     const newQuestion = `
       <div class="question-block" data-question-id="${questionCounter}">
-        <label>Question:</label>
-        <input type="text" name="questions[${questionCounter}][text]" placeholder="Enter the question" class="form-control mb-2" required>
-
-        <div class="answers-container">
-          <input type="text" name="questions[${questionCounter}][answers][0][text]" placeholder="Enter an answer" class="form-control mb-2" required>
+        <div class="form-group mb-3">
+          <label>Question</label>
+          <input type="text" name="questions[${questionCounter}][text]" placeholder="Enter the question" class="form-control" required>
         </div>
 
-        <button type="button" id="addAnswer" class="btn btn-secondary btn-sm mt-2">Add Answer</button>
+        <div class="answers-container mb-3">
+          <input type="text" name="questions[${questionCounter}][answers][0][text]" placeholder="Enter an answer" class="form-control mb-3" required>
+        </div>
 
-        <div class="correct-answer-container mt-3">
-          <label for="questions[${questionCounter}][correct]">Correct Answer:</label>
-          <select name="questions[${questionCounter}][correct]" class="form-control correct-answer-dropdown" required>
+        <button type="button" id="addAnswer" class="btn btn-secondary mb-3">Add Answer</button>
+
+        <div class="correct-answer-container mb-3">
+          <label for="questions[${questionCounter}][correct]">Correct Answer</label>
+          <select name="questions[${questionCounter}][correct]" class="form-control correct-answer-dropdown form-select" required>
             <option value="" disabled selected>Select the correct answer</option>
             <option value="0">Answer 1</option>
           </select>

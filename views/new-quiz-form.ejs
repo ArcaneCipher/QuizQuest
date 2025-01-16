@@ -31,70 +31,86 @@
 <body class="scroll-snap">
   <%- include('partials/_header', { req: req }) %>
 
-  <div class="container mt-5 pt-5">
-    <div class="container"> <!-- Don't need the margin top padding anymore. layout.css handles it -->
-      <h2>Create New Quiz</h2>
-      <form id="create-quiz-form" action="/quizzes/new" method="POST">
-        <!-- Quiz Title -->
-        <div class="form-group mb-3">
-          <label>Quiz Title</label>
-          <input type="text" name="quiz_name" class="form-control" required>
-        </div>
-
-        <!-- Quiz Description -->
-        <div class="form-group mb-3">
-          <label>Description</label>
-          <textarea name="quiz_description" class="form-control" required></textarea>
-        </div>
-
-        <!-- Quiz Category -->
-        <div class="form group mb-3">
-          <label>Category</label>
-          <select name="quiz_category" class="form-control" required>
-            <% categories.forEach(category => { %>
-              <option value="<%= category.category %>"><%= category.category %></option>
-            <% }); %>
-          </select>
-        </div>
-
-        <!-- Public or Private -->
-        <div class="form-check mb-3">
-          <input type="checkbox" name="is_public" class="form-check-input" checked>
-          <label class="form-check-label">Make Quiz Public</label>
-        </div>
-
-        <!-- Dynamic Questions Section -->
-        <div id="questions-container">
-          <!-- Initial Question Block -->
-          <div class="question-block" data-question-id="0">
-            <label>Question:</label>
-            <input type="text" name="questions[0][text]" placeholder="Enter the question" class="form-control mb-2" required>
-
-            <!-- Answers -->
-            <div class="answers-container">
-              <label>Answer:</label>
-              <input type="text" name="questions[0][answers][0][text]" placeholder="Enter an answer" class="form-control mb-2" required>
-            </div>
-
-            <!-- Add Answer Button -->
-            <button type="button" id="addAnswer" class="btn btn-secondary btn-sm mt-2">Add Answer</button>
-
-            <!-- Correct Answer Dropdown -->
-            <div class="correct-answer-container mt-3">
-              <label for="questions[0][correct]">Correct Answer:</label>
-              <select name="questions[0][correct]" class="form-control correct-answer-dropdown" required>
-                <option value="" disabled selected>Select the correct answer</option>
-                <option value="0">Answer 1</option>
-              </select>
+  <section class="create-quiz py-5 px-md-0 px-2">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+            
+          <h1 class="mb-5 text-center">Create New Quiz</h1>
+          <div class="bg-layout p-md-5 px-3 py-5">
+        <form id="create-quiz-form" action="/quizzes/new" method="POST">
+          <!-- Quiz Title -->
+          <div class="form-group mb-3">
+            <label>Quiz Title</label>
+            <input type="text" name="quiz_name" class="form-control" required>
+          </div>
+  
+          <!-- Quiz Description -->
+          <div class="form-group mb-3">
+            <label>Description</label>
+            <textarea name="quiz_description" class="form-control" required></textarea>
+          </div>
+  
+          <!-- Quiz Category -->
+          <div class="form group mb-3">
+            <label>Category</label>
+            <select name="quiz_category" class="form-control form-select" required>
+              <% categories.forEach(category => { %>
+                <option value="<%= category.category %>"><%= category.category %></option>
+              <% }); %>
+            </select>
+          </div>
+  
+          <!-- Public or Private -->
+          <div class="form-check mb-3 ps-0">
+            <label class="d-block">Visibility</label>
+            <div class="d-flex align-items-center">
+              <input type="checkbox" name="is_public" id="visibility" class="form-check-input" checked>
+              <label for="visibility"></label> 
+              <span class="order-0">Public</span>
+              <span class="order-2">Private</span>
             </div>
           </div>
+  
+          <!-- Dynamic Questions Section -->
+          <div id="questions-container">
+            <!-- Initial Question Block -->
+            <div class="question-block" data-question-id="0">
+              <div class="form-group mb-3">
+                <label>Question</label>
+                <input type="text" name="questions[0][text]" placeholder="Enter the question" class="form-control" required>
+              </div>
+  
+              <!-- Answers -->
+              <div class="answers-container mb-3">
+                <label>Answer</label>
+                <input type="text" name="questions[0][answers][0][text]" placeholder="Enter an answer" class="form-control mb-3" required>
+              </div>
+  
+              <!-- Add Answer Button -->
+              <button type="button" id="addAnswer" class="btn btn-secondary mb-3">Add Answer</button>
+  
+              <!-- Correct Answer Dropdown -->
+              <div class="correct-answer-container mb-3">
+                <label for="questions[0][correct]">Correct Answer</label>
+                <select name="questions[0][correct]" class="form-control correct-answer-dropdown form-select" required>
+                  <option value="" disabled selected>Select the correct answer</option>
+                  <option value="0">Answer 1</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="d-flex align-items-center gap-3 mt-3">
+            <button type="button" class="btn btn-info" id="add-question">Add Question</button>
+            <button type="submit" class="btn btn-primary">Submit Quiz</button>
+          </div>
+  
+        </form>
+          </div>
         </div>
-
-        <button type="button" class="btn btn-primary btn-sm mt-3" id="add-question">Add Question</button>
-        <button type="submit" class="btn btn-success mt-3">Submit Quiz</button>
-      </form>
+      </div>
     </div>
-  </div>
+  </section>
 </body>
 </html>
 </html>
