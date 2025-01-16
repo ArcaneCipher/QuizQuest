@@ -56,7 +56,6 @@ router.post('/signup', async (req, res) => {
 
 // This route will handle user login by verifying the email and password, then setting a session.
 router.post('/login', async (req, res) => {
-  console.log('Request Body:', req.body); // Debugging
   const { email, password } = req.body;
 
   if (!email || !password) {
@@ -81,8 +80,9 @@ router.post('/login', async (req, res) => {
       return res.status(400).json({ error: 'Invalid email or password.' });
     }
 
-    // Save the user ID in the session
+    // Save user ID and name in the session
     req.session.userId = user.id;
+    req.session.userName = user.name;
 
     // Redirect to the homepage after successful login
     res.redirect('/');
