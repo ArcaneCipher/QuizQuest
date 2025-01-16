@@ -98,45 +98,82 @@ body {
 .category:nth-child(11) { --bg-color: #c8a6f3; }
 .category:nth-child(12) { --bg-color: #78b7d1; }
 .category:nth-child(13) { --bg-color: #b8df7f; }
+.category:nth-child(14) { --bg-color: #625db0; }
 
 // quizzes
 
 .quizzes{
   padding: 80px 0;
+
   #quizzes{
     scroll-margin-top: 97px;
   }
 }
+
 .quizzes-group {
-  scroll-margin-top: 97px;
+  margin-bottom: 40px;
+
   .category-title {
-    border-bottom:1px solid #ddd;
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-top: 20px;
+    text-transform: capitalize;
+
     &:first-letter {
-      font-size: 32px;
-        /* color: var(--bg-color); */
+      font-size: 2rem;
+        color: var(--bg-color);
     }
   }
+
   .quiz-list {
     display: flex;
+    flex-wrap: wrap;
     column-gap: 1rem;
+
     a {
-      padding: 10px 15px;
-      border-radius: 6px;
-      @include flex-center;
-      font-weight: 700;
-      border-radius: 8px;
-      text-decoration: none;
-      position: relative;
-      background: var(--bg-color);
-      color: #fff;
+      // --bg-color: #ccc; // Fallback for missing color
+      display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 170px;
+        height: 80px;
+        text-decoration: none;
+        font-weight: 700;
+        font-size: 1rem;
+        border-radius: 8px;
+        color: #fff;
+        background-color: var(--bg-color);
+        transition: all 0.3s ease-in;
+
       h4 {
-        font-size: 18px;
+        font-size: 1rem;
         margin: 0;
         font-weight: 600;
       }
+
+      &:hover {
+        box-shadow: 0px 2px 10px var(--bg-color);
+      }
     }
   }
+
+  // Apply nth-child coloring to quizzes
+  &:nth-child(1) { --bg-color: #3cc4c4; }
+  &:nth-child(2) { --bg-color: #b26ff2; }
+  &:nth-child(3) { --bg-color: #ffc744; }
+  &:nth-child(4) { --bg-color: #64bcf5; }
+  &:nth-child(5) { --bg-color: #787cff; }
+  &:nth-child(6) { --bg-color: #ff8f66; }
+  &:nth-child(7) { --bg-color: #fe749d; }
+  &:nth-child(8) { --bg-color: #d779f1; }
+  &:nth-child(9) { --bg-color: #3bd1f2; }
+  &:nth-child(10) { --bg-color: #2dc8a2; }
+  &:nth-child(11) { --bg-color: #c8a6f3; }
+  &:nth-child(12) { --bg-color: #78b7d1; }
+  &:nth-child(13) { --bg-color: #b8df7f; }
+  &:nth-child(14) { --bg-color: #625db0; }
 }
+
 .backToTopBtn {
   width: 40px;
   height: 40px;
